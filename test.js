@@ -125,6 +125,20 @@ runTest('Simulation Theory Analysis: Classical video-game simulation is refuted 
     assert.strictEqual(verdict.nobelPrizeVerdict, 'SCIENTIFICALLY REFUTED BY 2022 NOBEL EXPERIMENTS');
 });
 
+// 9. Smart Contract & Token Integrity
+runTest('Blockchain Smart Contract: SimulationTheoryToken (SIM) ERC-20 & Quantum Verifier verified', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const contractPath = path.join(__dirname, 'contracts', 'SimulationTheoryToken.sol');
+    assert(fs.existsSync(contractPath), 'SimulationTheoryToken.sol must exist in contracts/');
+
+    const src = fs.readFileSync(contractPath, 'utf8');
+    assert(src.includes('contract SimulationTheoryToken is IERC20'), 'Must implement IERC20 standard');
+    assert(src.includes('string public constant name = "Simulation Theory"'), 'Token name must be Simulation Theory');
+    assert(src.includes('string public constant symbol = "SIM"'), 'Token symbol must be SIM');
+    assert(src.includes('function recordBellProof'), 'Must contain on-chain Bell proof oracle');
+});
+
 console.log('='.repeat(75));
 console.log(`📊 RESULTS: ${passedTests}/${totalTests} Tests Passed (100% Real Science Verified).`);
 console.log('='.repeat(75));

@@ -113,6 +113,22 @@ const server = http.createServer((req, res) => {
         return sendJSON(res, 200, { classicalSim, informational });
     }
 
+    // 8. Smart Contract Source & Metadata
+    if (pathname === '/api/contract/source') {
+        const contractPath = path.join(__dirname, 'contracts', 'SimulationTheoryToken.sol');
+        if (fs.existsSync(contractPath)) {
+            const sourceCode = fs.readFileSync(contractPath, 'utf8');
+            return sendJSON(res, 200, {
+                name: 'SimulationTheoryToken',
+                symbol: 'SIM',
+                standard: 'ERC-20',
+                totalSupply: '100,000,000 SIM',
+                sourceCode
+            });
+        }
+        return sendJSON(res, 404, { error: 'Contract source not found' });
+    }
+
     // ---------------------------------------------------------
     // Static Frontend File Delivery
     // ---------------------------------------------------------

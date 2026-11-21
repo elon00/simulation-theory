@@ -425,7 +425,7 @@ function loadBenchmarks() {
 }
 
 // -------------------------------------------------------------------
-// 7. About & GitHub Copy Remote Handler
+// 7. About & GitHub Copy Handlers
 // -------------------------------------------------------------------
 function setupCopyRemoteHandler() {
     const copyRemoteBtn = document.getElementById('copyRemoteBtn');
@@ -443,6 +443,28 @@ function setupCopyRemoteHandler() {
                     copyRemoteBtn.style.color = '';
                 }, 2000);
             }).catch(err => console.error("Clipboard copy error:", err));
+        });
+    }
+
+    const copyContractBtn = document.getElementById('copyContractCodeBtn');
+    if (copyContractBtn) {
+        copyContractBtn.addEventListener('click', () => {
+            fetch('/api/contract/source')
+                .then(res => res.json())
+                .then(data => {
+                    navigator.clipboard.writeText(data.sourceCode).then(() => {
+                        const orig = copyContractBtn.textContent;
+                        copyContractBtn.textContent = 'Copied to Clipboard!';
+                        copyContractBtn.style.borderColor = 'var(--accent-emerald)';
+                        copyContractBtn.style.color = 'var(--accent-emerald)';
+                        setTimeout(() => {
+                            copyContractBtn.textContent = orig;
+                            copyContractBtn.style.borderColor = '';
+                            copyContractBtn.style.color = '';
+                        }, 2000);
+                    });
+                })
+                .catch(err => console.error("Error copying contract code:", err));
         });
     }
 }
