@@ -22,5 +22,9 @@
     "physics"
   ],
   "author": "elon00",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "ethers": "^6.17.0",
+    "solc": "^0.8.39"
+  }
 }

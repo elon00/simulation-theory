@@ -377,11 +377,23 @@
                                 contracts/SimulationTheoryToken.sol ↗
                             </a>
                         </div>
+                        <div class="meta-row">
+                            <span class="meta-label">On-Chain Deployment:</span>
+                            <span id="onchainStatus" class="badge badge-gold">Checking...</span>
+                        </div>
+                        <div class="meta-row" id="contractAddressRow" style="display: none;">
+                            <span class="meta-label">Contract Address:</span>
+                            <a id="contractAddressLink" href="#" target="_blank" rel="noopener noreferrer" class="link-cyan">0x...</a>
+                        </div>
+                        <div class="meta-row" id="deployerWalletRow" style="display: none;">
+                            <span class="meta-label">Deployer Wallet:</span>
+                            <span id="deployerWalletSpan" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);">0x...</span>
+                        </div>
                     </div>
 
                     <div class="btn-row mt-3">
-                        <a href="https://remix.ethereum.org" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                            ⚡ Deploy in 1-Click via Remix Ethereum (MetaMask) ↗
+                        <a href="https://cloud.google.com/application/faucets/ethereum/sepolia" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" id="faucetBtn">
+                            💧 Free Sepolia ETH Faucet ↗
                         </a>
                         <button id="copyContractCodeBtn" class="btn btn-outline">Copy Solidity Code</button>
                     </div>

@@ -470,6 +470,41 @@ function setupCopyRemoteHandler() {
 }
 
 // -------------------------------------------------------------------
+// 8. On-Chain Smart Contract Status
+// -------------------------------------------------------------------
+function loadContractStatus() {
+    const onchainStatus = document.getElementById('onchainStatus');
+    const contractAddressRow = document.getElementById('contractAddressRow');
+    const contractAddressLink = document.getElementById('contractAddressLink');
+    const deployerWalletRow = document.getElementById('deployerWalletRow');
+    const deployerWalletSpan = document.getElementById('deployerWalletSpan');
+
+    if (!onchainStatus) return;
+
+    fetch('/api/contract/status')
+        .then(res => res.json())
+        .then(data => {
+            if (data.deployed) {
+                onchainStatus.textContent = 'DEPLOYED ON ETHEREUM (Sepolia)';
+                onchainStatus.className = 'badge badge-emerald';
+                if (contractAddressRow && contractAddressLink) {
+                    contractAddressRow.style.display = 'flex';
+                    contractAddressLink.textContent = data.contractAddress;
+                    contractAddressLink.href = data.etherscanUrl || `https://sepolia.etherscan.io/address/${data.contractAddress}`;
+                }
+            } else {
+                onchainStatus.textContent = 'Ready to Deploy (Run .\\deploy_ethereum.ps1)';
+                onchainStatus.className = 'badge badge-gold';
+                if (data.deployerWallet && deployerWalletRow && deployerWalletSpan) {
+                    deployerWalletRow.style.display = 'flex';
+                    deployerWalletSpan.textContent = data.deployerWallet;
+                }
+            }
+        })
+        .catch(err => console.error("Error loading contract status:", err));
+}
+
+// -------------------------------------------------------------------
 // Initial Load
 // -------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -478,4 +513,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSwapping();
     loadBenchmarks();
     setupCopyRemoteHandler();
+    loadContractStatus();
 });

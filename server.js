@@ -129,6 +129,29 @@ const server = http.createServer((req, res) => {
         return sendJSON(res, 404, { error: 'Contract source not found' });
     }
 
+    // 9. On-Chain Deployment Status
+    if (pathname === '/api/contract/status') {
+        const deployedPath = path.join(__dirname, 'deployed_address.json');
+        const envPath = path.join(__dirname, '.env');
+        let deployerWallet = null;
+
+        if (fs.existsSync(envPath)) {
+            const match = fs.readFileSync(envPath, 'utf8').match(/WALLET_ADDRESS=["']?([0-9a-zA-Z]+)["']?/);
+            if (match) deployerWallet = match[1];
+        }
+
+        if (fs.existsSync(deployedPath)) {
+            const data = JSON.parse(fs.readFileSync(deployedPath, 'utf8'));
+            return sendJSON(res, 200, { deployed: true, ...data });
+        } else {
+            return sendJSON(res, 200, {
+                deployed: false,
+                deployerWallet,
+                status: 'Not deployed yet. Run .\\deploy_ethereum.ps1 to deploy on Sepolia Testnet.'
+            });
+        }
+    }
+
     // ---------------------------------------------------------
     // Static Frontend File Delivery
     // ---------------------------------------------------------
