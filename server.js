@@ -1,366 +1,147 @@
+/**
+ * Simulation Theory — 2022 Nobel Prize in Physics Scientific Server
+ * Built on native Node.js (http, fs, path, url)
+ * ZERO MOCKS. Pure Scientific Computation & Historic Benchmark Delivery.
+ */
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-// Core Cryptographic & Quantum Engines
-const Blockchain = require('./core/blockchain');
-const CryptoWallet = require('./core/crypto_wallet');
-const LiveOracle = require('./core/live_oracle');
+const ClauserChshEngine = require('./core/clauser_chsh');
+const AspectLocalityEngine = require('./core/aspect_locality');
+const ZeilingerEntanglementEngine = require('./core/zeilinger_entanglement');
+const RealExperimentalBenchmarks = require('./core/real_experimental_benchmarks');
+const SimulationTheoryAnalysis = require('./core/simulation_theory_analysis');
 
-// QMOOSA Universal Framework Modules
-const QuickNodeProvider = require('./core/quicknode_provider');
-const X402BazaarEngine = require('./core/x402_bazaar');
-const ConwayAutomatonEngine = require('./core/conway_engine');
-const PqcHybridEngine = require('./core/pqc_engine');
-const RavenRsiEngine = require('./core/raven_rsi');
-const ReaEngine = require('./core/rea_engine');
-const TokenLaunchpadEngine = require('./core/token_launchpad');
-const MultiwalletQrEngine = require('./core/multiwallet_qr');
-const IpfsFleekAdapter = require('./core/ipfs_fleek_adapter');
-const UniversalChainScaffold = require('./core/chain_scaffold');
-const MultimodelAgentOrchestrator = require('./core/multimodel_agents');
+const clauserEngine = new ClauserChshEngine();
+const aspectEngine = new AspectLocalityEngine();
+const zeilingerEngine = new ZeilingerEntanglementEngine();
+const benchmarks = new RealExperimentalBenchmarks();
+const simAnalysis = new SimulationTheoryAnalysis();
 
-let PORT = parseInt(process.env.PORT, 10) || 3000;
+const PORT = process.env.PORT || 3000;
+const PUBLIC_DIR = path.join(__dirname, 'public');
 
-// Initialize System Engines
-const blockchain = new Blockchain();
-const oracle = new LiveOracle();
-const quickNode = new QuickNodeProvider();
-const x402Bazaar = new X402BazaarEngine();
-const conwayEngine = new ConwayAutomatonEngine();
-const pqcEngine = new PqcHybridEngine();
-const ravenRsi = new RavenRsiEngine();
-const reaEngine = new ReaEngine(__dirname);
-const tokenLaunchpad = new TokenLaunchpadEngine();
-const multiwalletQr = new MultiwalletQrEngine();
-const ipfsFleek = new IpfsFleekAdapter(__dirname);
-const chainScaffold = new UniversalChainScaffold();
-const agentOrchestrator = new MultimodelAgentOrchestrator();
+const MIME_TYPES = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.svg': 'image/svg+xml'
+};
 
-// Start Live Background Streams
-oracle.start();
-conwayEngine.seedPattern('glider', 2, 2);
-ipfsFleek.generateFleekConfig();
-ipfsFleek.pinReleaseArtifact('QMOOSA_GENESIS_CORE', { version: '2.0.0', status: 'PRODUCTION_VERIFIED' });
-
-// Seed initial token launchpad project
-tokenLaunchpad.createLaunchpadProject({
-    tokenName: 'Quantum Cybernetic Token',
-    tokenSymbol: 'QCY',
-    targetChain: 'Base',
-    initialSupply: 100000000,
-    salePriceUSD: 0.05
-});
-
-// Seed default funded wallet
-const defaultUserWallet = new CryptoWallet();
-blockchain.balances.set(defaultUserWallet.address, 500.0);
-
-function sendJson(res, statusCode, data) {
+function sendJSON(res, statusCode, data) {
     res.writeHead(statusCode, {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-402-Payment-Proof'
+        'Access-Control-Allow-Headers': 'Content-Type'
     });
-    res.end(JSON.stringify(data));
+    res.end(JSON.stringify(data, null, 2));
 }
 
-function parseBody(req) {
-    return new Promise((resolve, reject) => {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', () => {
-            try {
-                resolve(body ? JSON.parse(body) : {});
-            } catch (err) {
-                reject(err);
-            }
-        });
-        req.on('error', reject);
-    });
-}
-
-const server = http.createServer(async (req, res) => {
-    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+const server = http.createServer((req, res) => {
+    const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost:3000'}`);
     const pathname = parsedUrl.pathname;
+    const query = Object.fromEntries(parsedUrl.searchParams.entries());
 
     if (req.method === 'OPTIONS') {
         res.writeHead(204, {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, X-402-Payment-Proof'
+            'Access-Control-Allow-Headers': 'Content-Type'
         });
         return res.end();
     }
 
-    // 1. Core Blockchain & Network Status
-    if (pathname === '/api/status' && req.method === 'GET') {
-        const telemetry = blockchain.cybernetics.getLatestTelemetry();
-        const oracleData = oracle.getPrices();
-        const latestBlock = blockchain.getLatestBlock();
-        const qnStatus = quickNode.getHealthStatus();
+    // ---------------------------------------------------------
+    // Scientific API Endpoints (2022 Nobel Prize in Physics)
+    // ---------------------------------------------------------
 
-        return sendJson(res, 200, {
-            success: true,
-            network: 'QMOOSA-UNIVERSAL-MAINNET',
-            blockHeight: blockchain.chain.length,
-            latestBlock,
-            mempoolCount: blockchain.mempool.length,
-            mempool: blockchain.mempool,
-            telemetry,
-            oracle: oracleData,
-            quickNode: qnStatus,
-            defaultUser: {
-                address: defaultUserWallet.address,
-                publicKey: defaultUserWallet.publicKey,
-                balance: blockchain.getBalance(defaultUserWallet.address)
-            }
-        });
+    // 1. CHSH Inequality Evaluation
+    if (pathname === '/api/nobel/chsh') {
+        const a = parseFloat(query.a !== undefined ? query.a : 0);
+        const aPrime = parseFloat(query.aPrime !== undefined ? query.aPrime : 45);
+        const b = parseFloat(query.b !== undefined ? query.b : 22.5);
+        const bPrime = parseFloat(query.bPrime !== undefined ? query.bPrime : 67.5);
+        const mode = query.mode || 'photons';
+
+        const result = clauserEngine.evaluateCHSH(a, aPrime, b, bPrime, mode);
+        return sendJSON(res, 200, result);
     }
 
-    if (pathname === '/api/chain' && req.method === 'GET') {
-        return sendJson(res, 200, {
-            success: true,
-            length: blockchain.chain.length,
-            chain: blockchain.chain
-        });
+    // 2. CHSH Angular Sweep for Real Plotting
+    if (pathname === '/api/nobel/chsh/sweep') {
+        const step = parseFloat(query.step || 2.0);
+        const sweepData = clauserEngine.generateAngularSweep(step);
+        return sendJSON(res, 200, sweepData);
     }
 
-    // 2. Wallets & Transactions
-    if (pathname === '/api/wallet/new' && req.method === 'POST') {
-        const wallet = new CryptoWallet();
-        const faucetAmount = 100.0;
-        const genesisVaultBal = blockchain.getBalance(blockchain.systemWallet.address);
-        if (genesisVaultBal >= faucetAmount) {
-            blockchain.balances.set(blockchain.systemWallet.address, genesisVaultBal - faucetAmount);
-            blockchain.balances.set(wallet.address, faucetAmount);
+    // 3. Clauser LHV Analytical Proof
+    if (pathname === '/api/nobel/chsh/lhv-proof') {
+        const proof = clauserEngine.verifyLocalHiddenVariableBound();
+        return sendJSON(res, 200, proof);
+    }
+
+    // 4. Alain Aspect Locality Loophole & Relativistic Spacetime Engine
+    if (pathname === '/api/nobel/aspect') {
+        const aspect1982 = aspectEngine.evaluateAspect1982Experiment();
+        const zeilinger1998 = aspectEngine.evaluateZeilinger1998Experiment();
+        return sendJSON(res, 200, { aspect1982, zeilinger1998 });
+    }
+
+    // 5. Anton Zeilinger Entanglement Swapping & GHZ State Engine
+    if (pathname === '/api/nobel/zeilinger') {
+        const outcome = query.outcome || 'psiMinus';
+        const swapping = zeilingerEngine.simulateEntanglementSwapping(outcome);
+        const ghz = zeilingerEngine.evaluateGHZTheorem();
+        return sendJSON(res, 200, { swapping, ghz });
+    }
+
+    // 6. Real Peer-Reviewed Experimental Benchmarks
+    if (pathname === '/api/nobel/benchmarks') {
+        const allExperiments = benchmarks.getAllExperiments();
+        return sendJSON(res, 200, allExperiments);
+    }
+
+    // 7. Simulation Theory & Informational Reality Analysis
+    if (pathname === '/api/nobel/simulation-analysis') {
+        const classicalSim = simAnalysis.evaluateClassicalSimulationHypothesis();
+        const informational = simAnalysis.evaluateInformationalReality();
+        return sendJSON(res, 200, { classicalSim, informational });
+    }
+
+    // ---------------------------------------------------------
+    // Static Frontend File Delivery
+    // ---------------------------------------------------------
+    let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
+
+    // Prevent directory traversal
+    if (!filePath.startsWith(PUBLIC_DIR)) {
+        res.writeHead(403);
+        return res.end('Access denied');
+    }
+
+    fs.stat(filePath, (err, stats) => {
+        if (err || !stats.isFile()) {
+            res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+            return res.end('404 Not Found');
         }
 
-        return sendJson(res, 200, {
-            success: true,
-            address: wallet.address,
-            publicKey: wallet.publicKey,
-            privateKey: wallet.privateKey,
-            balance: blockchain.getBalance(wallet.address)
-        });
-    }
+        const ext = path.extname(filePath).toLowerCase();
+        const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    if (pathname === '/api/transaction' && req.method === 'POST') {
-        try {
-            const body = await parseBody(req);
-            const tx = blockchain.addTransaction({
-                sender: body.sender,
-                recipient: body.recipient,
-                amount: parseFloat(body.amount),
-                fee: parseFloat(body.fee || 1.0),
-                gasLimit: 21000,
-                timestamp: Date.now(),
-                publicKeyPem: body.publicKeyPem,
-                signature: body.signature
-            });
-
-            return sendJson(res, 200, {
-                success: true,
-                message: 'Transaction verified and placed into quantum mempool',
-                transaction: tx
-            });
-        } catch (err) {
-            return sendJson(res, 400, { success: false, error: err.message });
-        }
-    }
-
-    if (pathname === '/api/mine' && req.method === 'POST') {
-        try {
-            const body = await parseBody(req);
-            const minerAddress = body.minerAddress || defaultUserWallet.address;
-            const newBlock = blockchain.mineNextBlock(minerAddress);
-
-            return sendJson(res, 200, {
-                success: true,
-                message: 'New block mined successfully with real SHA-256 Proof-of-Work!',
-                block: newBlock
-            });
-        } catch (err) {
-            return sendJson(res, 500, { success: false, error: err.message });
-        }
-    }
-
-    // 3. QuickNode Multichain RPC API
-    if (pathname === '/api/quicknode/health' && req.method === 'GET') {
-        return sendJson(res, 200, quickNode.getHealthStatus());
-    }
-
-    // 4. x402 Bazaar Protocol Routes
-    if (pathname === '/api/x402/resources' && req.method === 'GET') {
-        return sendJson(res, 200, {
-            success: true,
-            protocol: 'x402/v2',
-            bazaarCatalog: x402Bazaar.getBazaarCatalog()
-        });
-    }
-
-    if (pathname === '/api/x402/challenge' && req.method === 'POST') {
-        try {
-            const body = await parseBody(req);
-            const challenge = x402Bazaar.createPaymentChallenge(body.serviceId, body.clientAddress);
-            return sendJson(res, 402, {
-                success: false,
-                status: 402,
-                error: 'Payment Required',
-                x402Challenge: challenge
-            });
-        } catch (err) {
-            return sendJson(res, 400, { success: false, error: err.message });
-        }
-    }
-
-    if (pathname === '/api/x402/verify' && req.method === 'POST') {
-        const body = await parseBody(req);
-        const verification = x402Bazaar.verifyPaymentProof(body);
-        return sendJson(res, verification.valid ? 200 : 400, verification);
-    }
-
-    // 5. Conway Automaton Engine Routes
-    if (pathname === '/api/conway/step' && req.method === 'POST') {
-        const result = conwayEngine.step();
-        return sendJson(res, 200, { success: true, ...result });
-    }
-
-    if (pathname === '/api/conway/snapshot' && req.method === 'GET') {
-        return sendJson(res, 200, { success: true, ...conwayEngine.exportSnapshot() });
-    }
-
-    // 6. Post-Quantum Cryptography (PQC) Routes
-    if (pathname === '/api/pqc/keypair' && req.method === 'POST') {
-        const keypair = pqcEngine.generateHybridKeyPair();
-        return sendJson(res, 200, { success: true, keypair });
-    }
-
-    // 7. Raven RSI & REA Introspection Routes
-    if (pathname === '/api/rsi/cycle' && req.method === 'POST') {
-        const telemetry = blockchain.cybernetics.getLatestTelemetry();
-        const cycle = ravenRsi.runOptimizationCycle(telemetry, { healthy: true });
-        return sendJson(res, 200, { success: true, cycle });
-    }
-
-    if (pathname === '/api/rea/audit' && req.method === 'GET') {
-        const audit = reaEngine.inspectProject();
-        return sendJson(res, 200, { success: true, audit });
-    }
-
-    // 8. Token Launchpad & Emission Economics
-    if (pathname === '/api/launchpad/projects' && req.method === 'GET') {
-        return sendJson(res, 200, { success: true, projects: tokenLaunchpad.getProjects() });
-    }
-
-    if (pathname === '/api/launchpad/create' && req.method === 'POST') {
-        try {
-            const body = await parseBody(req);
-            const project = tokenLaunchpad.createLaunchpadProject(body);
-            return sendJson(res, 200, { success: true, project });
-        } catch (err) {
-            return sendJson(res, 400, { success: false, error: err.message });
-        }
-    }
-
-    if (pathname === '/api/launchpad/participate' && req.method === 'POST') {
-        try {
-            const body = await parseBody(req);
-            const result = tokenLaunchpad.participateInLaunch(
-                body.projectId,
-                body.contributorAddress || defaultUserWallet.address,
-                parseInt(body.tierId !== undefined ? body.tierId : 2),
-                parseFloat(body.amountUSD || 100)
-            );
-            return sendJson(res, 200, result);
-        } catch (err) {
-            return sendJson(res, 400, { success: false, error: err.message });
-        }
-    }
-
-    if (pathname === '/api/launchpad/emission' && req.method === 'POST') {
-        const body = await parseBody(req);
-        const calc = tokenLaunchpad.calculateEmissionLimit(body.currentSupply || 1000000, body.requestedMint || 50000);
-        return sendJson(res, 200, { success: true, emission: calc });
-    }
-
-    // 9. Multiwallet & Cross-Chain QR Payments
-    if (pathname === '/api/wallets/qr' && req.method === 'POST') {
-        const body = await parseBody(req);
-        const qr = multiwalletQr.generatePaymentUri(body);
-        return sendJson(res, 200, { success: true, qr });
-    }
-
-    if (pathname === '/api/wallets/supported' && req.method === 'GET') {
-        return sendJson(res, 200, { success: true, wallets: multiwalletQr.getSupportedWallets() });
-    }
-
-    // 10. IPFS & Fleek Edge Storage Registry
-    if (pathname === '/api/ipfs/artifacts' && req.method === 'GET') {
-        return sendJson(res, 200, { success: true, artifacts: ipfsFleek.getPinnedArtifacts() });
-    }
-
-    // 11. Multimodel AI Agentic Chatbot Dispatch
-    if (pathname === '/api/agent/chat' && req.method === 'POST') {
-        const body = await parseBody(req);
-        const chatRes = await agentOrchestrator.dispatchQuery(body.message, body.agentId);
-        return sendJson(res, 200, { success: true, message: chatRes });
-    }
-
-    // Static Asset Serving
-    let filePath = path.join(__dirname, 'public', pathname === '/' ? 'index.html' : pathname);
-    if (!fs.existsSync(filePath)) {
-        filePath = path.join(__dirname, 'public', 'index.html');
-    }
-
-    const ext = path.extname(filePath).toLowerCase();
-    const mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.json': 'application/json',
-        '.svg': 'image/svg+xml'
-    };
-    const contentType = mimeTypes[ext] || 'text/plain';
-
-    fs.readFile(filePath, (err, content) => {
-        if (err) {
-            res.writeHead(500);
-            res.end('File read error');
-        } else {
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
-        }
+        res.writeHead(200, { 'Content-Type': contentType });
+        fs.createReadStream(filePath).pipe(res);
     });
 });
 
-function startServer(portToTry) {
-    server.listen(portToTry, () => {
-        console.log(`================================================================`);
-        console.log(` 🚀 QMOOSA UNIVERSAL AI–WEB4–BLOCKCHAIN ENGINE ONLINE!`);
-        console.log(` 📡 Local Dashboard: http://localhost:${portToTry}`);
-        console.log(` ⛓️  Consensus: SHA-256 PoW + Quantum Hamiltonian Optimizer`);
-        console.log(` 🌐 QuickNode Multichain RPC: Active with Failover`);
-        console.log(` 💰 x402 Bazaar Protocol: Agent Monetization Active`);
-        console.log(` 🧬 Conway Cellular Automaton: B3/S23 Deterministic Engine`);
-        console.log(` 🛡️  Post-Quantum Cryptography: NIST FIPS 204 Hybrid ML-DSA`);
-        console.log(` 🔄 Raven RSI: Governed Recursive Self-Improvement Loop Active`);
-        console.log(` 🤖 Multimodel AI Agentics: Architecture, Security, QA Online`);
-        console.log(` 📦 Storage & Edge Deploy: IPFS CID + Fleek Config Ready`);
-        console.log(`================================================================`);
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log(`⚛️ Simulation Theory scientific server active on http://localhost:${PORT}`);
     });
 }
 
-server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-        console.warn(`⚠️  Port ${PORT} is occupied by another process.`);
-        PORT = PORT + 1;
-        console.log(`🔄 Automatically falling over to http://localhost:${PORT}...`);
-        startServer(PORT);
-    } else {
-        console.error('Server error:', err);
-    }
-});
-
-startServer(PORT);
+module.exports = server;

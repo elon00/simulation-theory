@@ -1,780 +1,459 @@
 /**
- * Full Omniverse Quantum-Dimensional Engine & Real Cryptocurrency Client
- * Integrates:
- * 1. 3D up to 12D Hypercube Generator (2^N Vertices) & Stereographic N-D Projection
- * 2. Multiverse Timeline Seed Splitter (#OMNI-001, #OMNI-002...) with Quantum Hue Shift
- * 3. Lazy Evaluation Observer Principle (Solid Geometry vs Quantum Probability Wave)
- * 4. Real secp256k1 Wallet Studio & Cryptographic Transaction Broadcasts
- * 5. Real SHA-256 Proof-of-Work Mining Engine & Cybernetic Homeostasis Telemetry
- * 6. Live Binance/CoinGecko Crypto Market Feeds
+ * Simulation Theory — 2022 Nobel Prize in Physics Laboratory Client
+ * Grounded 100% in peer-reviewed quantum physics (Aspect, Clauser, Zeilinger).
+ * ZERO MOCKS. Real API calls, exact linear algebra, and authentic laboratory datasets.
  */
 
-// Application State
-let activeWallet = null;
-let blockchainState = null;
+// DOM Elements: Tabs
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
 
-// Omniverse Engine State
-let dimensions = 4;
-let observerOn = true;
-let branchCount = 1;
-let hueShift = 195;
-let animTime = 0;
-let rotX = 0.4, rotY = 0.6;
-let isDragging = false, lastX = 0, lastY = 0;
+// DOM Elements: Clauser CHSH
+const angle_a = document.getElementById('angle_a');
+const angle_aPrime = document.getElementById('angle_aPrime');
+const angle_b = document.getElementById('angle_b');
+const angle_bPrime = document.getElementById('angle_bPrime');
 
-// DOM Elements: Crypto & Telemetry
-const btcPriceEl = document.getElementById('btcPrice');
-const ethPriceEl = document.getElementById('ethPrice');
-const solPriceEl = document.getElementById('solPrice');
+const val_a = document.getElementById('val_a');
+const val_aPrime = document.getElementById('val_aPrime');
+const val_b = document.getElementById('val_b');
+const val_bPrime = document.getElementById('val_bPrime');
 
-const walletAddressEl = document.getElementById('walletAddress');
-const walletBalanceEl = document.getElementById('walletBalance');
-const newWalletBtn = document.getElementById('newWalletBtn');
-const txForm = document.getElementById('txForm');
-const recipientInput = document.getElementById('recipientInput');
-const amountInput = document.getElementById('amountInput');
-const feeInput = document.getElementById('feeInput');
-const mineBtn = document.getElementById('mineBtn');
+const sValueEl = document.getElementById('sValue');
+const verdictBadge = document.getElementById('verdictBadge');
+const val_Eab = document.getElementById('val_Eab');
+const val_EabPrime = document.getElementById('val_EabPrime');
+const val_EaPrimeB = document.getElementById('val_EaPrimeB');
+const val_EaPrimeBPrime = document.getElementById('val_EaPrimeBPrime');
+const significanceText = document.getElementById('significanceText');
+const btnOptimalAngles = document.getElementById('btnOptimalAngles');
+const btnLhvProof = document.getElementById('btnLhvProof');
 
-const targetTimeVal = document.getElementById('targetTimeVal');
-const actualTimeVal = document.getElementById('actualTimeVal');
-const feedbackErrorVal = document.getElementById('feedbackErrorVal');
-const diffVal = document.getElementById('diffVal');
-const gasVal = document.getElementById('gasVal');
-const hamiltonianVal = document.getElementById('hamiltonianVal');
-const interferenceVal = document.getElementById('interferenceVal');
-const stabilityBadge = document.getElementById('stabilityBadge');
+// Canvases
+const sweepCanvas = document.getElementById('sweepCanvas');
+const minkowskiCanvas = document.getElementById('minkowskiCanvas');
 
-const blocksContainer = document.getElementById('blocksContainer');
-const mempoolContainer = document.getElementById('mempoolContainer');
-const blockCountBadge = document.getElementById('blockCountBadge');
-const mempoolBadge = document.getElementById('mempoolBadge');
+// Tab 2 & 3 Elements
+const aspectSpecsGrid = document.getElementById('aspectSpecsGrid');
+const bsmSelect = document.getElementById('bsmSelect');
+const swappingResultBox = document.getElementById('swappingResultBox');
+const benchmarksList = document.getElementById('benchmarksList');
 
-// DOM Elements: Omniverse 12D Controls
-const obsBtn = document.getElementById('obsBtn');
-const obsDesc = document.getElementById('obsDesc');
-const dimSlider = document.getElementById('dimSlider');
-const dimVal = document.getElementById('dimVal');
-const dimName = document.getElementById('dimName');
-const branchBtn = document.getElementById('branchBtn');
-const branchId = document.getElementById('branchId');
-const totalNodesEl = document.getElementById('totalNodes');
-const ramSavedEl = document.getElementById('ramSaved');
+// -------------------------------------------------------------------
+// 1. Tab Navigation
+// -------------------------------------------------------------------
+tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
 
-const dimLabels = {
-    3: "3D Cube (Physical Space)",
-    4: "4D Tesseract (Spacetime)",
-    5: "5D Penteract (Probability)",
-    6: "6D Hexeract (Phase Space)",
-    7: "7D Hepteract (Calabi-Yau)",
-    8: "8D Octeract (E8 Lattice)",
-    9: "9D Enneract (Brane Space)",
-    10: "10D Dekeract (Superstring)",
-    11: "11D Hendekeract (M-Theory)",
-    12: "12D Dodekeract (Omniverse)"
-};
+        btn.classList.add('active');
+        const targetTab = btn.getAttribute('data-tab');
+        document.getElementById(targetTab).classList.add('active');
 
-// ----------------------------------------------------
-// 1. Omniverse N-Dimensional Generator (3D to 12D)
-// ----------------------------------------------------
-let vertices = [];
-let edges = [];
-
-function buildHypercube(n) {
-    vertices = [];
-    edges = [];
-    const count = 1 << n; // 2^n vertices (up to 4096 for 12D)
-    for (let i = 0; i < count; i++) {
-        let coords = [];
-        for (let d = 0; d < n; d++) {
-            coords.push((i & (1 << d)) ? 1 : -1);
+        if (targetTab === 'aspect') {
+            drawMinkowskiDiagram();
+        } else if (targetTab === 'clauser') {
+            drawAngularSweep();
         }
-        vertices.push(coords);
-    }
-
-    // Connect vertices differing by 1 bit
-    for (let i = 0; i < count; i++) {
-        for (let d = 0; d < n; d++) {
-            let neighbor = i ^ (1 << d);
-            if (i < neighbor) edges.push([i, neighbor]);
-        }
-    }
-    totalNodesEl.textContent = count.toLocaleString();
-}
-buildHypercube(dimensions);
-
-// Observer Toggle
-obsBtn.onclick = () => {
-    observerOn = !observerOn;
-    obsBtn.textContent = observerOn ? "OBSERVER: ON (Rendered)" : "OBSERVER: OFF (Probability Wave)";
-    obsBtn.className = observerOn ? "btn btn-sm btn-obs-on" : "btn btn-sm btn-obs-off";
-    obsDesc.textContent = observerOn
-        ? "Wavefunction collapsed into solid geometry inside viewport"
-        : "Observer removed! Geometry dissolves into unrendered probability waves.";
-    ramSavedEl.textContent = observerOn ? "98.42%" : "99.9999%";
-};
-
-// 3D to 12D Dimension Slider
-dimSlider.oninput = (e) => {
-    dimensions = parseInt(e.target.value);
-    dimVal.textContent = dimensions + "D";
-    dimName.textContent = dimLabels[dimensions];
-    buildHypercube(dimensions);
-};
-
-// Multiverse Timeline Branch Splitter
-branchBtn.onclick = () => {
-    branchCount++;
-    hueShift = (hueShift + 55) % 360;
-    branchId.textContent = `#OMNI-${String(branchCount).padStart(3, '0')}`;
-};
-
-// ----------------------------------------------------
-// 2. Stereographic Higher-Dimension -> 3D -> 2D Screen Projection
-// ----------------------------------------------------
-const canvas = document.getElementById('quantumCanvas');
-const ctx = canvas.getContext('2d');
-let cWidth, cHeight;
-
-function resizeCanvas() {
-    cWidth = canvas.width = canvas.parentElement.clientWidth;
-    cHeight = canvas.height = canvas.parentElement.clientHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-// Orbit controls
-canvas.addEventListener('mousedown', e => {
-    isDragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-});
-window.addEventListener('mouseup', () => isDragging = false);
-window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    rotY += (e.clientX - lastX) * 0.008;
-    rotX += (e.clientY - lastY) * 0.008;
-    lastX = e.clientX;
-    lastY = e.clientY;
-});
-
-function projectND(point) {
-    let p = [...point];
-
-    // Rotate across higher dimensional planes (d >= 3)
-    for (let d = 3; d < p.length; d++) {
-        const angle = animTime * (0.4 + d * 0.08);
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        const a = p[0] * cos - p[d] * sin;
-        const b = p[0] * sin + p[d] * cos;
-        p[0] = a;
-        p[d] = b;
-    }
-
-    // Recursively fold N-D down to 3D via stereographic projection
-    while (p.length > 3) {
-        const w = p.pop();
-        const distance = 2.6;
-        const factor = 1 / (distance - w * 0.45);
-        for (let i = 0; i < p.length; i++) {
-            p[i] *= factor;
-        }
-    }
-
-    // 3D Orbit Rotation (X and Y)
-    let [x, y, z] = p;
-    let cy = Math.cos(rotY), sy = Math.sin(rotY);
-    let x1 = x * cy - z * sy;
-    let z1 = x * sy + z * cy;
-
-    let cx = Math.cos(rotX), sx = Math.sin(rotX);
-    let y2 = y * cx - z1 * sx;
-    let z2 = y * sx + z1 * cx;
-
-    // 3D -> 2D Screen Perspective
-    const fov = Math.min(cWidth, cHeight) * 0.42;
-    const scale = fov / (3.2 - z2 * 0.4);
-    return {
-        x: cWidth / 2 + x1 * scale,
-        y: cHeight / 2 + y2 * scale,
-        z: z2
-    };
-}
-
-function animateViewport() {
-    animTime += 0.015;
-    ctx.fillStyle = observerOn ? 'rgba(5, 7, 13, 0.35)' : 'rgba(5, 7, 13, 0.14)';
-    ctx.fillRect(0, 0, cWidth, cHeight);
-
-    const projected = vertices.map((v, idx) => {
-        // Quantum wave uncertainty jitter when Observer is OFF
-        if (!observerOn) {
-            const jittered = v.map((coord, d) => coord + Math.sin(animTime * 4 + idx + d) * 0.35);
-            return projectND(jittered);
-        }
-        return projectND(v);
     });
+});
 
-    // Draw Edges only when Observer collapses the wavefunction
-    if (observerOn) {
-        ctx.lineWidth = dimensions > 7 ? 0.6 : 1.2;
-        ctx.strokeStyle = `hsla(${hueShift}, 85%, 60%, ${dimensions > 8 ? 0.18 : 0.45})`;
-        ctx.beginPath();
-        for (let i = 0; i < edges.length; i++) {
-            const [a, b] = edges[i];
-            ctx.moveTo(projected[a].x, projected[a].y);
-            ctx.lineTo(projected[b].x, projected[b].y);
-        }
-        ctx.stroke();
-    }
+// -------------------------------------------------------------------
+// 2. Clauser CHSH Bell Test Interaction
+// -------------------------------------------------------------------
+function updateChshCalculations() {
+    const a = parseFloat(angle_a.value);
+    const aPrime = parseFloat(angle_aPrime.value);
+    const b = parseFloat(angle_b.value);
+    const bPrime = parseFloat(angle_bPrime.value);
 
-    // Draw Quantum Nodes (Solid Particles vs Probability Clouds)
-    for (let i = 0; i < projected.length; i++) {
-        const pt = projected[i];
-        const isEntangled = (i === 0 || i === projected.length - 1);
-        ctx.beginPath();
-        if (observerOn) {
-            ctx.fillStyle = isEntangled ? '#f43f5e' : `hsl(${hueShift}, 90%, 70%)`;
-            ctx.arc(pt.x, pt.y, isEntangled ? 4.5 : (dimensions > 8 ? 1.5 : 2.8), 0, Math.PI * 2);
-        } else {
-            ctx.fillStyle = `hsla(${(hueShift + 90) % 360}, 90%, 65%, 0.55)`;
-            ctx.arc(pt.x, pt.y, 3.5 + Math.sin(animTime * 5 + i) * 2, 0, Math.PI * 2);
-        }
-        ctx.fill();
-    }
+    val_a.textContent = `${a}°`;
+    val_aPrime.textContent = `${aPrime}°`;
+    val_b.textContent = `${b}°`;
+    val_bPrime.textContent = `${bPrime}°`;
 
-    // Draw Entanglement Link (0ms Synchronization between opposite poles)
-    if (projected.length >= 2) {
-        const first = projected[0];
-        const last = projected[projected.length - 1];
-        ctx.strokeStyle = 'rgba(244, 63, 94, 0.85)';
-        ctx.setLineDash([4, 4]);
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(first.x, first.y);
-        ctx.lineTo(last.x, last.y);
-        ctx.stroke();
-        ctx.setLineDash([]);
-    }
+    fetch(`/api/nobel/chsh?a=${a}&aPrime=${aPrime}&b=${b}&bPrime=${bPrime}&mode=photons`)
+        .then(res => res.json())
+        .then(data => {
+            sValueEl.textContent = data.S.toFixed(6);
+            val_Eab.textContent = data.correlations.E_ab.toFixed(6);
+            val_EabPrime.textContent = data.correlations.E_abPrime.toFixed(6);
+            val_EaPrimeB.textContent = data.correlations.E_aPrime_b.toFixed(6);
+            val_EaPrimeBPrime.textContent = data.correlations.E_aPrime_bPrime.toFixed(6);
 
-    requestAnimationFrame(animateViewport);
-}
-animateViewport();
-
-// ----------------------------------------------------
-// 3. Real Cryptocurrency Node & Telemetry Integration
-// ----------------------------------------------------
-async function fetchStatus() {
-    try {
-        const res = await fetch('/api/status');
-        const data = await res.json();
-        if (!data.success) return;
-
-        blockchainState = data;
-
-        // Initialize default wallet if none loaded
-        if (!activeWallet && data.defaultUser) {
-            activeWallet = data.defaultUser;
-            updateWalletUI();
-        } else if (activeWallet && data.defaultUser && activeWallet.address === data.defaultUser.address) {
-            activeWallet.balance = data.defaultUser.balance;
-            walletBalanceEl.textContent = activeWallet.balance.toFixed(2);
-        }
-
-        // Live Oracle Prices & QuickNode Status
-        if (data.oracle && data.oracle.prices) {
-            btcPriceEl.textContent = `$${data.oracle.prices.BTC.toLocaleString()}`;
-            ethPriceEl.textContent = `$${data.oracle.prices.ETH.toLocaleString()}`;
-            solPriceEl.textContent = `$${data.oracle.prices.SOL.toLocaleString()}`;
-        }
-        const qnLatencyEl = document.getElementById('qnLatency');
-        if (qnLatencyEl && data.quickNode) {
-            qnLatencyEl.textContent = `${data.quickNode.latencyMs || 12}ms`;
-        }
-
-        // Cybernetics Telemetry
-        const t = data.telemetry;
-        targetTimeVal.textContent = `${t.targetBlockTime} ms`;
-        actualTimeVal.textContent = `${t.actualBlockTime} ms`;
-        feedbackErrorVal.textContent = `${t.errorMs > 0 ? '+' : ''}${t.errorMs} ms`;
-        diffVal.textContent = t.currentDifficulty;
-        gasVal.textContent = `${t.baseGasFeeGwei} Gwei`;
-        stabilityBadge.textContent = `${t.systemStability}% Stable`;
-
-        // Quantum Hamiltonian Metrics
-        if (data.latestBlock && data.latestBlock.quantumMetrics) {
-            hamiltonianVal.textContent = data.latestBlock.quantumMetrics.hamiltonianEnergy;
-            interferenceVal.textContent = data.latestBlock.quantumMetrics.interferenceFactor;
-        }
-
-        // Mempool & Block Explorer
-        mempoolBadge.textContent = `${data.mempoolCount} Pending`;
-        renderMempool(data.mempool);
-        blockCountBadge.textContent = `${data.blockHeight} Blocks`;
-        await fetchAndRenderBlocks();
-
-    } catch (err) {
-        console.error('Status sync error:', err);
-    }
-}
-
-async function fetchAndRenderBlocks() {
-    try {
-        const res = await fetch('/api/chain');
-        const data = await res.json();
-        if (!data.success) return;
-
-        blocksContainer.innerHTML = '';
-        const reversedChain = [...data.chain].reverse();
-
-        for (const block of reversedChain) {
-            const el = document.createElement('div');
-            el.className = 'block-card';
-            el.innerHTML = `
-                <div class="block-card-header">
-                    <span>Block #${block.index} ${block.index === 0 ? '(Genesis)' : ''}</span>
-                    <span class="tag">Diff: ${block.difficulty} | Nonce: ${block.nonce}</span>
-                </div>
-                <div class="block-hash">Hash: ${block.hash}</div>
-                <div class="block-meta">
-                    <span>Merkle: ${block.merkleRoot.slice(0, 18)}...</span>
-                    <span>Txs: ${block.transactions.length} | Mining: ${block.miningDurationMs || 0}ms</span>
-                </div>
-            `;
-            blocksContainer.appendChild(el);
-        }
-    } catch (err) {
-        console.error('Blocks render error:', err);
-    }
-}
-
-function renderMempool(mempool) {
-    if (!mempool || mempool.length === 0) {
-        mempoolContainer.innerHTML = '<div class="empty-state">Mempool is empty. Create a transaction!</div>';
-        return;
-    }
-
-    mempoolContainer.innerHTML = '';
-    for (const tx of mempool) {
-        const item = document.createElement('div');
-        item.className = 'mempool-item';
-        item.innerHTML = `
-            <div style="display:flex; justify-content:space-between; font-weight:600; color:#38bdf8;">
-                <span>${tx.id}</span>
-                <span>${tx.amount} QCY</span>
-            </div>
-            <div style="font-size:0.7rem; color:#94a3b8; word-break:break-all; margin-top:2px;">
-                From: ${tx.sender.slice(0, 14)}... &rarr; To: ${tx.recipient.slice(0, 14)}... (Fee: ${tx.fee} QCY)
-            </div>
-        `;
-        mempoolContainer.appendChild(item);
-    }
-}
-
-function updateWalletUI() {
-    if (!activeWallet) return;
-    walletAddressEl.textContent = activeWallet.address;
-    walletBalanceEl.textContent = (activeWallet.balance || 0).toFixed(2);
-}
-
-// Create New Real secp256k1 Wallet
-newWalletBtn.onclick = async () => {
-    try {
-        newWalletBtn.disabled = true;
-        newWalletBtn.textContent = 'Generating secp256k1...';
-        const res = await fetch('/api/wallet/new', { method: 'POST' });
-        const wallet = await res.json();
-        if (wallet.success) {
-            activeWallet = wallet;
-            updateWalletUI();
-            alert(`🎉 Real secp256k1 Wallet Created!\nAddress: ${wallet.address}\nFunded with 100.0 QCY faucet balance.`);
-        }
-    } catch (err) {
-        alert('Failed to generate wallet: ' + err.message);
-    } finally {
-        newWalletBtn.disabled = false;
-        newWalletBtn.textContent = '+ New Real Wallet';
-    }
-};
-
-// Submit Signed Transaction
-txForm.onsubmit = async (e) => {
-    e.preventDefault();
-    if (!activeWallet) return alert('Please initialize a wallet first.');
-
-    const recipient = recipientInput.value.trim();
-    const amount = parseFloat(amountInput.value);
-    const fee = parseFloat(feeInput.value);
-
-    try {
-        const payload = {
-            sender: activeWallet.address,
-            recipient,
-            amount,
-            fee,
-            publicKeyPem: activeWallet.publicKey,
-            signature: 'CLIENT_ECDSA_AUTOSIGNED'
-        };
-
-        const res = await fetch('/api/transaction', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-        if (data.success) {
-            recipientInput.value = '';
-            amountInput.value = '';
-            fetchStatus();
-        } else {
-            alert('Transaction Error: ' + data.error);
-        }
-    } catch (err) {
-        alert('Failed to submit transaction: ' + err.message);
-    }
-};
-
-// Mine Block Button
-mineBtn.onclick = async () => {
-    try {
-        mineBtn.disabled = true;
-        mineBtn.textContent = '⛏️ Searching PoW Target Hash...';
-        const res = await fetch('/api/mine', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ minerAddress: activeWallet.address })
-        });
-        const data = await res.json();
-        if (data.success) {
-            await fetchStatus();
-            if (activeWallet.address === data.block.transactions[0].recipient) {
-                activeWallet.balance = (activeWallet.balance || 0) + data.block.transactions[0].amount;
-                updateWalletUI();
-            }
-        } else {
-            alert('Mining failed: ' + data.error);
-        }
-    } catch (err) {
-        alert('Mining request error: ' + err.message);
-    } finally {
-        mineBtn.disabled = false;
-        mineBtn.textContent = '⛏️ Mine Next Block (SHA-256 PoW + Quantum Bundle)';
-    }
-};
-
-// Initialize Status & Polling
-fetchStatus();
-setInterval(fetchStatus, 3000);
-
-// ----------------------------------------------------
-// 4. QMOOSA Universal Engineering Suite Event Handlers
-// ----------------------------------------------------
-
-// Conway Automaton Controls
-const conwayGenBadge = document.getElementById('conwayGenBadge');
-const conwayLiveCells = document.getElementById('conwayLiveCells');
-const conwayHash = document.getElementById('conwayHash');
-const conwayStepBtn = document.getElementById('conwayStepBtn');
-const conwayGliderBtn = document.getElementById('conwayGliderBtn');
-const conwayBlinkerBtn = document.getElementById('conwayBlinkerBtn');
-
-if (conwayStepBtn) {
-    conwayStepBtn.onclick = async () => {
-        const res = await fetch('/api/conway/step', { method: 'POST' });
-        const d = await res.json();
-        if (d.success) {
-            conwayGenBadge.textContent = `Gen #${d.generation}`;
-            conwayLiveCells.textContent = d.liveCells;
-            conwayHash.textContent = d.stateHash.slice(0, 10) + '...';
-        }
-    };
-}
-
-if (conwayGliderBtn) {
-    conwayGliderBtn.onclick = async () => {
-        const res = await fetch('/api/conway/snapshot');
-        const d = await res.json();
-        conwayGenBadge.textContent = 'Gen #0 (Glider)';
-        conwayLiveCells.textContent = '5';
-        conwayHash.textContent = d.stateHash.slice(0, 10) + '...';
-    };
-}
-
-// x402 Bazaar Protocol Handlers
-const x402CatalogEl = document.getElementById('x402Catalog');
-const test402Btn = document.getElementById('test402Btn');
-
-async function loadX402Catalog() {
-    try {
-        const res = await fetch('/api/x402/resources');
-        const d = await res.json();
-        if (d.success && x402CatalogEl) {
-            x402CatalogEl.innerHTML = d.bazaarCatalog.map(s => 
-                `<div>&bull; <strong style="color:#38bdf8;">${s.name}</strong> (${s.costQCY} QCY)</div>`
-            ).join('');
-        }
-    } catch (e) {
-        if (x402CatalogEl) x402CatalogEl.textContent = 'x402 Bazaar offline';
-    }
-}
-loadX402Catalog();
-
-if (test402Btn) {
-    test402Btn.onclick = async () => {
-        const res = await fetch('/api/x402/challenge', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ serviceId: 'qmoosa-quantum-optimization' })
-        });
-        const d = await res.json();
-        alert(`HTTP 402 PAYMENT REQUIRED RESPONSE:\nChallenge Hash: ${d.x402Challenge.challengeHash}\nCost: ${d.x402Challenge.costQCY} QCY\nRecipient: ${d.x402Challenge.recipient}`);
-    };
-}
-
-// PQC & QR Multiwallet Handlers
-const pqcGenBtn = document.getElementById('pqcGenBtn');
-const genQrBtn = document.getElementById('genQrBtn');
-const qrPreview = document.getElementById('qrPreview');
-
-if (pqcGenBtn) {
-    pqcGenBtn.onclick = async () => {
-        pqcGenBtn.textContent = 'Generating...';
-        const res = await fetch('/api/pqc/keypair', { method: 'POST' });
-        const d = await res.json();
-        pqcGenBtn.textContent = 'Generate ML-DSA';
-        alert(`NIST FIPS 204 HYBRID KEYPAIR GENERATED!\nSuite: ${d.keypair.suite}\nAddress: ${d.keypair.hybridAddress}\nPQC Public Key: ${d.keypair.pqc.publicKeyHex.slice(0, 32)}...`);
-    };
-}
-
-if (genQrBtn && qrPreview) {
-    genQrBtn.onclick = async () => {
-        const addr = activeWallet ? activeWallet.address : '0x71C...B29';
-        const res = await fetch('/api/wallets/qr', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chain: 'ethereum', address: addr, amount: 25.0, token: 'QCY' })
-        });
-        const d = await res.json();
-        if (d.success) {
-            qrPreview.innerHTML = d.qr.qrMatrixSvg;
-        }
-    };
-}
-
-// Multimodel AI Agentic Console Handlers
-const agentSelect = document.getElementById('agentSelect');
-const agentChatBox = document.getElementById('agentChatBox');
-const agentInput = document.getElementById('agentInput');
-const agentSendBtn = document.getElementById('agentSendBtn');
-
-if (agentSendBtn && agentInput) {
-    agentSendBtn.onclick = async () => {
-        const text = agentInput.value.trim();
-        if (!text) return;
-        const agentId = agentSelect ? agentSelect.value : 'agent_arch';
-        agentChatBox.innerHTML += `<div style="color:#38bdf8; margin-top:4px;">&gt; You: ${text}</div>`;
-        agentInput.value = '';
-
-        try {
-            const res = await fetch('/api/agent/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: text, agentId })
-            });
-            const d = await res.json();
-            if (d.success) {
-                agentChatBox.innerHTML += `<div style="color:#a5b4fc; margin-top:2px;">${d.message.response}</div>`;
-                agentChatBox.scrollTop = agentChatBox.scrollHeight;
-            }
-        } catch (e) {
-            agentChatBox.innerHTML += `<div style="color:#f43f5e;">Agent dispatch error: ${e.message}</div>`;
-        }
-    };
-}
-
-// ----------------------------------------------------
-// 5. QMOOSA Sovereign Token Launchpad Client Logic
-// ----------------------------------------------------
-const launchpadContainer = document.getElementById('launchpadProjectsContainer');
-const toggleCreateLaunchBtn = document.getElementById('toggleCreateLaunchBtn');
-const createLaunchPanel = document.getElementById('createLaunchPanel');
-const createLaunchForm = document.getElementById('createLaunchForm');
-const cancelLaunchBtn = document.getElementById('cancelLaunchBtn');
-
-const toggleCalcBtn = document.getElementById('toggleCalcBtn');
-const emissionCalcPanel = document.getElementById('emissionCalcPanel');
-const runCalcBtn = document.getElementById('runCalcBtn');
-const calcSupply = document.getElementById('calcSupply');
-const calcMint = document.getElementById('calcMint');
-const calcResult = document.getElementById('calcResult');
-
-// Toggle Panels
-if (toggleCreateLaunchBtn && createLaunchPanel) {
-    toggleCreateLaunchBtn.onclick = () => {
-        createLaunchPanel.style.display = createLaunchPanel.style.display === 'none' ? 'block' : 'none';
-    };
-}
-if (cancelLaunchBtn && createLaunchPanel) {
-    cancelLaunchBtn.onclick = () => { createLaunchPanel.style.display = 'none'; };
-}
-
-if (toggleCalcBtn && emissionCalcPanel) {
-    toggleCalcBtn.onclick = () => {
-        emissionCalcPanel.style.display = emissionCalcPanel.style.display === 'none' ? 'block' : 'none';
-    };
-}
-
-// Fetch & Render Launchpad Projects
-async function fetchLaunchpadProjects() {
-    if (!launchpadContainer) return;
-    try {
-        const res = await fetch('/api/launchpad/projects');
-        const d = await res.json();
-        if (!d.success || !d.projects) return;
-
-        launchpadContainer.innerHTML = '';
-        for (const p of d.projects) {
-            const card = document.createElement('div');
-            card.className = 'launchpad-card';
-            card.innerHTML = `
-                <div class="launchpad-card-header">
-                    <div>
-                        <div class="lp-title">${p.tokenName} <span class="lp-symbol">(${p.tokenSymbol})</span></div>
-                        <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;">Target Chain: <strong style="color:#38bdf8;">${p.targetChain}</strong></div>
-                    </div>
-                    <span class="badge ${p.status === 'GOAL_REACHED' ? 'live' : ''}">${p.status}</span>
-                </div>
-
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.78rem;">
-                        <span>Raised: <strong>$${p.currentRaisedUSD.toLocaleString()}</strong></span>
-                        <span>Target: <strong>$${p.targetRaiseUSD.toLocaleString()}</strong> (${p.progressPercent}%)</span>
-                    </div>
-                    <div class="lp-progress-container">
-                        <div class="lp-progress-fill" style="width: ${Math.min(100, p.progressPercent)}%;"></div>
-                    </div>
-                </div>
-
-                <div class="lp-tiers-grid">
-                    ${p.tiers.map(t => `
-                        <div class="lp-tier-item">
-                            <span class="lp-tier-name">${t.name}</span>
-                            <span class="lp-tier-price">$${t.priceUSD}</span>
-                            <span style="color:#64748b;">Lock: ${t.lockDays}d</span>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div style="display:flex; gap:8px; align-items:center; margin-top:4px;">
-                    <select id="tierSelect_${p.projectId}" style="background:#0f172a; border:1px solid #1e293b; color:#fff; font-size:0.75rem; padding:6px; border-radius:4px; flex:1;">
-                        <option value="0">Seed Tier (50% Off &bull; 365d Lock)</option>
-                        <option value="1">Strategic Tier (20% Off &bull; 180d Lock)</option>
-                        <option value="2" selected>Public TGE Tier (No Lock)</option>
-                    </select>
-                    <input type="number" id="amtInput_${p.projectId}" value="100" min="10" step="10" style="width:80px; background:#0f172a; border:1px solid #1e293b; color:#fff; font-size:0.75rem; padding:6px; border-radius:4px;" />
-                    <button class="btn btn-sm btn-success" onclick="participateLaunch('${p.projectId}')">Participate</button>
-                </div>
-            `;
-            launchpadContainer.appendChild(card);
-        }
-    } catch (e) {
-        console.error('Launchpad load error:', e);
-    }
-}
-
-// Global participation function
-window.participateLaunch = async (projectId) => {
-    const tierEl = document.getElementById(`tierSelect_${projectId}`);
-    const amtEl = document.getElementById(`amtInput_${projectId}`);
-    const tierId = tierEl ? parseInt(tierEl.value) : 2;
-    const amountUSD = amtEl ? parseFloat(amtEl.value) : 100;
-    const addr = activeWallet ? activeWallet.address : '0x71C...B29';
-
-    try {
-        const res = await fetch('/api/launchpad/participate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ projectId, tierId, amountUSD, contributorAddress: addr })
-        });
-        const d = await res.json();
-        if (d.success) {
-            alert(`🎉 LAUNCHPAD CONTRIBUTION CONFIRMED!\nTokens Awarded: ${d.contribution.tokensAwarded} ${d.project.tokenSymbol}\nTier: ${d.contribution.tierName}\nLock Period: ${d.contribution.lockDays} Days\nTx Proof: ${d.contribution.txProof.slice(0, 24)}...`);
-            fetchLaunchpadProjects();
-        } else {
-            alert('Participation failed: ' + d.error);
-        }
-    } catch (err) {
-        alert('Participation error: ' + err.message);
-    }
-};
-
-// Create Launch Form Submit
-if (createLaunchForm) {
-    createLaunchForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const payload = {
-            tokenName: document.getElementById('lpTokenName').value.trim(),
-            tokenSymbol: document.getElementById('lpTokenSymbol').value.trim(),
-            targetChain: document.getElementById('lpTargetChain').value,
-            initialSupply: parseFloat(document.getElementById('lpInitialSupply').value),
-            salePriceUSD: parseFloat(document.getElementById('lpSalePrice').value),
-            targetRaiseUSD: parseFloat(document.getElementById('lpTargetRaise').value)
-        };
-
-        try {
-            const res = await fetch('/api/launchpad/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const d = await res.json();
-            if (d.success) {
-                alert(`🚀 NEW TOKEN LAUNCHPAD CREATED!\nProject: ${d.project.tokenName} (${d.project.tokenSymbol})\nTarget Chain: ${d.project.targetChain}\nBytecode Hash: ${d.project.contractBytecodeHash.slice(0, 24)}...`);
-                createLaunchPanel.style.display = 'none';
-                createLaunchForm.reset();
-                fetchLaunchpadProjects();
+            if (data.violatesLocalRealism) {
+                verdictBadge.textContent = "VIOLATES LOCAL REALISM";
+                verdictBadge.className = "verdict-badge verdict-violation";
+                significanceText.textContent = `VIOLATION OF LOCAL REALISM: S = ${data.S.toFixed(4)} exceeds the classical Bell bound of 2.000 by +${data.violationPercentage}%. Nature cannot be explained by local hidden variables.`;
             } else {
-                alert('Creation failed: ' + d.error);
+                verdictBadge.textContent = "WITHIN CLASSICAL BOUND";
+                verdictBadge.className = "verdict-badge verdict-compliant";
+                significanceText.textContent = `COMPLIANT WITH LOCAL REALISM: For these specific analyzer settings, S = ${data.S.toFixed(4)} <= 2.0. Shift angles towards Clauser's optimal (0°, 45°, 22.5°, 67.5°) to observe maximal quantum violation.`;
             }
-        } catch (err) {
-            alert('Create launch error: ' + err.message);
-        }
-    };
+
+            drawAngularSweep(b);
+        })
+        .catch(err => console.error("CHSH fetch error:", err));
 }
 
-// Emission Calculator
-if (runCalcBtn) {
-    runCalcBtn.onclick = async () => {
-        const supply = parseFloat(calcSupply.value);
-        const mint = parseFloat(calcMint.value);
-        try {
-            const res = await fetch('/api/launchpad/emission', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ currentSupply: supply, requestedMint: mint })
-            });
-            const d = await res.json();
-            if (d.success) {
-                const em = d.emission;
-                calcResult.innerHTML = `
-                    <div style="color:${em.isThrottled ? '#f59e0b' : '#10b981'}; font-weight:600;">
-                        Status: ${em.isThrottled ? '⚠️ THROTTLED BY GOVERNANCE (Requested > 8% Cap)' : '✔ APPROVED UNDER 8% CEILING'}
-                    </div>
-                    <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">
-                        Current Total Supply: <strong>${em.currentTotalSupply.toLocaleString()}</strong> &bull; 
-                        Annual 8% Ceiling: <strong style="color:#38bdf8;">${em.annualCeiling.toLocaleString()}</strong> &bull; 
-                        Approved Mint M(t): <strong style="color:#10b981;">${em.approvedMint.toLocaleString()}</strong>
-                        ${em.isThrottled ? `<br><span style="color:#f43f5e;">Rejected Inflation Delta: -${em.rejectionDelta.toLocaleString()}</span>` : ''}
-                    </div>
-                `;
-            }
-        } catch (e) {
-            calcResult.textContent = 'Calculation error: ' + e.message;
-        }
-    };
+[angle_a, angle_aPrime, angle_b, angle_bPrime].forEach(slider => {
+    slider.addEventListener('input', updateChshCalculations);
+});
+
+btnOptimalAngles.addEventListener('click', () => {
+    angle_a.value = 0;
+    angle_aPrime.value = 45;
+    angle_b.value = 22.5;
+    angle_bPrime.value = 67.5;
+    updateChshCalculations();
+});
+
+btnLhvProof.addEventListener('click', () => {
+    fetch('/api/nobel/chsh/lhv-proof')
+        .then(res => res.json())
+        .then(data => {
+            alert(`John Clauser Local Hidden Variable (LHV) Analytical Proof:\n\nTested all ${data.totalRealizationsTested} possible deterministic assignments:\nMaximum Value: ${data.universalMaximum}\nMinimum Value: ${data.universalMinimum}\n\nProof: ${data.mathematicalProof}`);
+        });
+});
+
+// -------------------------------------------------------------------
+// 3. Angular Sweep Canvas Visualizer
+// -------------------------------------------------------------------
+function drawAngularSweep(currentB = 22.5) {
+    if (!sweepCanvas) return;
+    const ctx = sweepCanvas.getContext('2d');
+    const W = sweepCanvas.width;
+    const H = sweepCanvas.height;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Padding & Plot dimensions
+    const padX = 60;
+    const padY = 40;
+    const plotW = W - padX - 30;
+    const plotH = H - padY - 40;
+
+    // Grid Background
+    ctx.strokeStyle = '#1e2638';
+    ctx.lineWidth = 1;
+
+    // Horizontal grid & labels (S from 0 to 3.0)
+    for (let s = 0; s <= 3.0; s += 0.5) {
+        const y = H - padY - (s / 3.0) * plotH;
+        ctx.beginPath();
+        ctx.moveTo(padX, y);
+        ctx.lineTo(padX + plotW, y);
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px JetBrains Mono';
+        ctx.textAlign = 'right';
+        ctx.fillText(`S=${s.toFixed(1)}`, padX - 8, y + 4);
+    }
+
+    // Classical Limit Line at S = 2.0 (Red Dashed)
+    const yClassical = H - padY - (2.0 / 3.0) * plotH;
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath();
+    ctx.moveTo(padX, yClassical);
+    ctx.lineTo(padX + plotW, yClassical);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '11px Inter';
+    ctx.textAlign = 'left';
+    ctx.fillText('Classical Local Realism Limit (S = 2.0)', padX + 10, yClassical - 8);
+
+    // Tsirelson Bound Line at S = 2*sqrt(2) ~ 2.828 (Gold Dashed)
+    const yTsirelson = H - padY - ((2.0 * Math.SQRT2) / 3.0) * plotH;
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(padX, yTsirelson);
+    ctx.lineTo(padX + plotW, yTsirelson);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillText('Tsirelson Quantum Bound (2√2 ≈ 2.828)', padX + 10, yTsirelson - 6);
+
+    // Plot Quantum S(theta) Curve: a=0, a'=45, b'=67.5, b swept from 0 to 180 deg
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+
+    const a = 0;
+    const aPrime = 45;
+    const bPrime = 67.5;
+
+    for (let deg = 0; deg <= 180; deg += 1) {
+        const radA = (a * Math.PI) / 180;
+        const radAPrime = (aPrime * Math.PI) / 180;
+        const radB = (deg * Math.PI) / 180;
+        const radBPrime = (bPrime * Math.PI) / 180;
+
+        const E_ab = -Math.cos(2 * (radA - radB));
+        const E_abPrime = -Math.cos(2 * (radA - radBPrime));
+        const E_aPrime_b = -Math.cos(2 * (radAPrime - radB));
+        const E_aPrime_bPrime = -Math.cos(2 * (radAPrime - radBPrime));
+
+        const S = Math.abs(E_ab - E_abPrime + E_aPrime_b + E_aPrime_bPrime);
+        const px = padX + (deg / 180) * plotW;
+        const py = H - padY - (S / 3.0) * plotH;
+
+        if (deg === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Mark current selected B angle
+    const curX = padX + (currentB / 180) * plotW;
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(curX, padY);
+    ctx.lineTo(curX, H - padY);
+    ctx.stroke();
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = '11px JetBrains Mono';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Current b = ${currentB}°`, curX, padY - 10);
+
+    // X Axis Labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px JetBrains Mono';
+    for (let deg = 0; deg <= 180; deg += 45) {
+        const px = padX + (deg / 180) * plotW;
+        ctx.fillText(`${deg}°`, px, H - padY + 20);
+    }
 }
 
-// Call on startup
-fetchLaunchpadProjects();
+// -------------------------------------------------------------------
+// 4. Alain Aspect Relativistic Minkowski Diagram
+// -------------------------------------------------------------------
+function drawMinkowskiDiagram() {
+    if (!minkowskiCanvas) return;
+    const ctx = minkowskiCanvas.getContext('2d');
+    const W = minkowskiCanvas.width;
+    const H = minkowskiCanvas.height;
+
+    ctx.clearRect(0, 0, W, H);
+
+    const midX = W / 2;
+    const originY = H - 50;
+
+    // Draw Light Cone (45 degree lines representing c)
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
+    ctx.beginPath();
+    ctx.moveTo(midX, originY);
+    ctx.lineTo(midX - 250, originY - 250);
+    ctx.lineTo(midX + 250, originY - 250);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(midX - 250, originY - 250);
+    ctx.lineTo(midX, originY);
+    ctx.lineTo(midX + 250, originY - 250);
+    ctx.stroke();
+
+    // Axes
+    ctx.strokeStyle = '#2f3b54';
+    ctx.lineWidth = 1;
+    // Space axis X
+    ctx.beginPath();
+    ctx.moveTo(40, originY);
+    ctx.lineTo(W - 40, originY);
+    ctx.stroke();
+
+    // Time axis ct
+    ctx.beginPath();
+    ctx.moveTo(midX, originY + 20);
+    ctx.lineTo(midX, 20);
+    ctx.stroke();
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Space (X) [Distance L = 12m]', W - 120, originY - 8);
+    ctx.fillText('Time (ct)', midX, 15);
+
+    // Calcium Source Event (Origin)
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(midX, originY, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText('Photon Emission Source (Calcium-40)', midX, originY + 22);
+
+    // Stations Alice (-L/2 = -6m) and Bob (+L/2 = +6m)
+    const aliceX = midX - 200;
+    const bobX = midX + 200;
+    const detectionY = originY - 180; // 20 ns flight time
+
+    // Photon Worldlines (Speed of Light)
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(midX, originY);
+    ctx.lineTo(aliceX, detectionY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(midX, originY);
+    ctx.lineTo(bobX, detectionY);
+    ctx.stroke();
+
+    // Alice Detection Point
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(aliceX, detectionY, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText('Alice Detector (Angle a)', aliceX, detectionY - 12);
+
+    // Bob Detection Point
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(bobX, detectionY, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText('Bob Detector (Angle b)', bobX, detectionY - 12);
+
+    // Space-like Connection line between Alice and Bob detections (Red Dashed)
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(aliceX, detectionY);
+    ctx.lineTo(bobX, detectionY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '12px JetBrains Mono';
+    ctx.fillText('Δs² = c²Δt² - Δx² < 0 (SPACE-LIKE SEPARATED)', midX, detectionY - 8);
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px Inter';
+    ctx.fillText('No signal at speed of light c could connect these measurements', midX, detectionY + 18);
+}
+
+function loadAspectData() {
+    fetch('/api/nobel/aspect')
+        .then(res => res.json())
+        .then(data => {
+            const exp = data.aspect1982;
+            aspectSpecsGrid.innerHTML = `
+                <div class="spec-card">
+                    <div class="spec-title">Station Separation</div>
+                    <div class="spec-val">${exp.setupParameters.totalSeparation_m} m</div>
+                    <div class="spec-desc">Total distance between Alice and Bob analyzers</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-title">Photon Flight Time</div>
+                    <div class="spec-val">${exp.setupParameters.photonFlightTimeToDetector_ns} ns</div>
+                    <div class="spec-desc">Time taken for photon to reach detector from central source</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-title">Switching Cycle</div>
+                    <div class="spec-val">${exp.setupParameters.analyzerSwitchingTime_ns} ns</div>
+                    <div class="spec-desc">50 MHz acoustic-optical switcher operates faster than flight time</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-title">Relativistic Verdict</div>
+                    <div class="spec-val text-emerald">SPACE-LIKE</div>
+                    <div class="spec-desc">Locality Loophole Strictly Closed under Einstein Special Relativity</div>
+                </div>
+            `;
+        });
+}
+
+// -------------------------------------------------------------------
+// 5. Anton Zeilinger Swapping Interaction
+// -------------------------------------------------------------------
+function updateSwapping() {
+    const outcome = bsmSelect.value;
+    fetch(`/api/nobel/zeilinger?outcome=${outcome}`)
+        .then(res => res.json())
+        .then(data => {
+            const sw = data.swapping;
+            swappingResultBox.innerHTML = `
+                <p><strong>Resulting State of Photons (1, 4):</strong> <span class="text-emerald" style="font-family: var(--font-mono); font-size: 1.1rem;">${sw.swappedState.resultingState}</span></p>
+                <p class="mt-3"><strong>Fidelity:</strong> ${sw.swappedState.stateFidelity.toFixed(2)} (Maximally Entangled)</p>
+                <p class="mt-3" style="color: var(--text-secondary);">${sw.swappedState.consequence}</p>
+                <div class="significance-box mt-3">${sw.informationalMeaning}</div>
+            `;
+        });
+}
+
+if (bsmSelect) {
+    bsmSelect.addEventListener('change', updateSwapping);
+}
+
+// -------------------------------------------------------------------
+// 6. Authentic Laboratory Benchmarks Loader
+// -------------------------------------------------------------------
+function loadBenchmarks() {
+    fetch('/api/nobel/benchmarks')
+        .then(res => res.json())
+        .then(benchmarks => {
+            benchmarksList.innerHTML = benchmarks.map(b => `
+                <div class="bench-card">
+                    <div>
+                        <div class="bench-citation">${b.citation} • DOI: ${b.doi}</div>
+                        <div class="bench-title">${b.title}</div>
+                        <div class="bench-authors">${b.leadScientist} (${b.institution})</div>
+                        <div class="bench-details">
+                            <strong>System:</strong> ${b.physicalSystem}<br>
+                            <strong>Observed Value:</strong> S = ${b.experimentalCHSH_S || b.experimentalValue} ± ${b.uncertainty} (Classical Bound: ${b.classicalBellBound})
+                        </div>
+                    </div>
+                    <div class="bench-stats">
+                        <div class="bench-sigma">${b.standardDeviations_sigma}σ</div>
+                        <div class="bench-sigma-label">Violation Significance</div>
+                        <div style="font-size: 0.72rem; color: var(--accent-cyan); margin-top: 0.3rem;">p-value: ${b.pValue}</div>
+                    </div>
+                </div>
+            `).join('');
+        });
+}
+
+// -------------------------------------------------------------------
+// 7. About & GitHub Copy Remote Handler
+// -------------------------------------------------------------------
+function setupCopyRemoteHandler() {
+    const copyRemoteBtn = document.getElementById('copyRemoteBtn');
+    const remoteCmd = document.getElementById('remoteCmd');
+    if (copyRemoteBtn && remoteCmd) {
+        copyRemoteBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(remoteCmd.textContent.trim()).then(() => {
+                const orig = copyRemoteBtn.textContent;
+                copyRemoteBtn.textContent = 'Copied!';
+                copyRemoteBtn.style.borderColor = 'var(--accent-emerald)';
+                copyRemoteBtn.style.color = 'var(--accent-emerald)';
+                setTimeout(() => {
+                    copyRemoteBtn.textContent = orig;
+                    copyRemoteBtn.style.borderColor = '';
+                    copyRemoteBtn.style.color = '';
+                }, 2000);
+            }).catch(err => console.error("Clipboard copy error:", err));
+        });
+    }
+}
+
+// -------------------------------------------------------------------
+// Initial Load
+// -------------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    updateChshCalculations();
+    loadAspectData();
+    updateSwapping();
+    loadBenchmarks();
+    setupCopyRemoteHandler();
+});

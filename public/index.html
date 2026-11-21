@@ -3,334 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QMOOSA Universal AI–Web4–Blockchain Engine | 100/100 Reality Gate</title>
+    <title>Simulation Theory — 2022 Nobel Prize in Physics Laboratory</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Top Navigation & Live Ticker -->
-    <header class="header">
-        <div class="brand">
-            <div class="logo-icon">⚛️</div>
-            <div>
-                <h1>QMOOSA UNIVERSAL AI–WEB4–BLOCKCHAIN ENGINE</h1>
-                <p class="subtitle">QuickNode RPC &bull; x402 Bazaar &bull; Conway Automaton &bull; NIST FIPS 204 PQC &bull; Raven RSI &bull; REA Introspection</p>
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-group">
+                <span class="nobel-icon">⚛️</span>
+                <div>
+                    <h1>SIMULATION THEORY</h1>
+                    <p class="subtitle">2022 Nobel Prize in Physics Scientific Verification Engine (Aspect • Clauser • Zeilinger)</p>
+                </div>
             </div>
-        </div>
-
-        <div class="live-oracle" id="oracleTicker">
-            <div class="ticker-item"><span class="badge live">LIVE ORACLE</span></div>
-            <div class="ticker-item"><span class="symbol">BTC:</span> <span id="btcPrice" class="price">$---</span></div>
-            <div class="ticker-item"><span class="symbol">ETH:</span> <span id="ethPrice" class="price">$---</span></div>
-            <div class="ticker-item"><span class="symbol">SOL:</span> <span id="solPrice" class="price">$---</span></div>
-            <div class="ticker-item"><span class="badge" style="background:#1e1b4b; color:#818cf8;">QuickNode: <span id="qnLatency">12ms</span></span></div>
+            <div class="header-badges">
+                <span class="badge badge-gold">🏆 Nobel Prize 2022</span>
+                <span class="badge badge-cyan">🔬 Pure Reality & Zero Mocks</span>
+                <span class="badge badge-emerald" id="statusBadge">● Engine Online</span>
+                <a href="https://github.com/elon00/simulation-theory" target="_blank" rel="noopener noreferrer" class="btn-github-header">
+                    <svg height="15" width="15" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: text-bottom; margin-right: 4px;">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    GitHub Repo
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Main Grid Dashboard -->
-    <main class="dashboard-grid">
-        <!-- 3D to 12D Omniverse Quantum Viewport -->
-        <section class="card viewport-card">
-            <div class="card-header">
-                <h2>🌐 Omniverse Quantum Viewport (3D to 12D Engine)</h2>
-                <div class="viewport-controls">
-                    <button id="obsBtn" class="btn btn-sm btn-obs-on">OBSERVER: ON (Rendered)</button>
-                    <span class="tag" id="dimName">4D Tesseract</span>
+    <main class="main-container">
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="clauser">1. Clauser CHSH Inequality</button>
+            <button class="tab-btn" data-tab="aspect">2. Aspect Spacetime & Locality</button>
+            <button class="tab-btn" data-tab="zeilinger">3. Zeilinger Entanglement Swapping & GHZ</button>
+            <button class="tab-btn" data-tab="benchmarks">4. Authentic Lab Benchmarks</button>
+            <button class="tab-btn" data-tab="itfrombit">5. Informational Reality ("It from Bit")</button>
+            <button class="tab-btn" data-tab="about">6. About & GitHub</button>
+        </nav>
+
+        <!-- Tab 1: Clauser CHSH -->
+        <section id="clauser" class="tab-content active">
+            <div class="panel-grid">
+                <div class="card control-card">
+                    <h2>John Clauser CHSH Bell Test</h2>
+                    <p class="desc">Vary polarizer analyzer angles $(a, a', b, b')$ to observe quantum violation of Einstein's Local Realism bound ($|S| \le 2$).</p>
+                    
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label>Alice Angle $a$:</label>
+                            <span id="val_a">0°</span>
+                        </div>
+                        <input type="range" id="angle_a" min="0" max="180" value="0" step="0.5">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label>Alice Angle $a'$:</label>
+                            <span id="val_aPrime">45°</span>
+                        </div>
+                        <input type="range" id="angle_aPrime" min="0" max="180" value="45" step="0.5">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label>Bob Angle $b$:</label>
+                            <span id="val_b">22.5°</span>
+                        </div>
+                        <input type="range" id="angle_b" min="0" max="180" value="22.5" step="0.5">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label>Bob Angle $b'$:</label>
+                            <span id="val_bPrime">67.5°</span>
+                        </div>
+                        <input type="range" id="angle_bPrime" min="0" max="180" value="67.5" step="0.5">
+                    </div>
+
+                    <div class="btn-row">
+                        <button id="btnOptimalAngles" class="btn btn-secondary">Set Clauser Optimal Angles (2√2)</button>
+                        <button id="btnLhvProof" class="btn btn-outline">View Analytical LHV Proof</button>
+                    </div>
+                </div>
+
+                <div class="card results-card">
+                    <div class="metric-header">
+                        <h2>CHSH Parameter $|S|$</h2>
+                        <span id="verdictBadge" class="verdict-badge verdict-violation">VIOLATES LOCAL REALISM</span>
+                    </div>
+
+                    <div class="hero-metric">
+                        <div class="metric-value" id="sValue">2.828427</div>
+                        <div class="metric-subtext">
+                            Classical Bell Limit: <strong>2.000000</strong> | Tsirelson's Quantum Bound: <strong>2.828427</strong> (2√2)
+                        </div>
+                    </div>
+
+                    <div class="correlation-grid">
+                        <div class="corr-item">
+                            <span class="corr-label">E(a, b)</span>
+                            <span class="corr-val" id="val_Eab">-0.707107</span>
+                        </div>
+                        <div class="corr-item">
+                            <span class="corr-label">E(a, b')</span>
+                            <span class="corr-val" id="val_EabPrime">0.707107</span>
+                        </div>
+                        <div class="corr-item">
+                            <span class="corr-label">E(a', b)</span>
+                            <span class="corr-val" id="val_EaPrimeB">-0.707107</span>
+                        </div>
+                        <div class="corr-item">
+                            <span class="corr-label">E(a', b')</span>
+                            <span class="corr-val" id="val_EaPrimeBPrime">-0.707107</span>
+                        </div>
+                    </div>
+
+                    <div class="significance-box" id="significanceText">
+                        VIOLATION OF LOCAL REALISM: Nature cannot be described by local hidden variables (Einstein's local realism is rejected).
+                    </div>
                 </div>
             </div>
-            
-            <div class="canvas-container">
-                <canvas id="quantumCanvas"></canvas>
-            </div>
 
-            <!-- Omniverse Dimensional & Multiverse Controls -->
-            <div class="omniverse-controls">
-                <div class="control-box">
-                    <div class="stat-row">
-                        <span class="label">Layer 3: Active Dimensions: <strong id="dimVal" class="val">4D</strong></span>
-                        <span class="tag" id="totalNodesTag"><span id="totalNodes">16</span> Nodes (2^N)</span>
-                    </div>
-                    <input type="range" id="dimSlider" min="3" max="12" value="4" step="1" />
+            <div class="card full-card mt-4">
+                <h3>Quantum Non-Locality vs Classical Realism Angular Sweep Curve</h3>
+                <p class="desc">Sweeping angle $b$ from $0^\circ$ to $180^\circ$ with $a=0^\circ, a'=45^\circ, b'=67.5^\circ$. Notice where the quantum curve breaks above the classical ceiling of $S = 2.0$.</p>
+                <div class="canvas-wrapper">
+                    <canvas id="sweepCanvas" width="900" height="320"></canvas>
                 </div>
-
-                <div class="control-row">
-                    <button id="branchBtn" class="btn btn-branch">+ Split Quantum Timeline Branch</button>
-                    <div class="branch-meta">
-                        <span>Universe ID: <strong id="branchId" class="val">#OMNI-001</strong></span>
-                        <span>RAM Saved: <strong id="ramSaved" class="val">98.42%</strong></span>
-                    </div>
-                </div>
-
-                <div class="canvas-footer">
-                    <span>Drag to Orbit</span> &bull; 
-                    <span>Entangled Nodes: <strong class="val" style="color:#f43f5e;">SYNCED (0ms)</strong></span> &bull; 
-                    <span id="obsDesc">Wavefunction collapsed into solid geometry inside viewport</span>
+                <div class="legend-row">
+                    <span class="legend-item"><span class="legend-dot dot-cyan"></span> Quantum Mechanics $S(\theta)$ (Cosine)</span>
+                    <span class="legend-item"><span class="legend-dot dot-red"></span> Classical Local Realism Limit ($S \le 2.0$)</span>
+                    <span class="legend-item"><span class="legend-dot dot-gold"></span> Tsirelson Bound ($2\sqrt{2} \approx 2.828$)</span>
                 </div>
             </div>
         </section>
 
-        <!-- Cybernetic Control Loop & Quantum Telemetry -->
-        <section class="card cybernetics-card">
-            <div class="card-header">
-                <h2>🔄 Cybernetics Homeostasis Engine (Norbert Wiener)</h2>
-                <span class="badge" id="stabilityBadge">100% Stable</span>
-            </div>
-            <div class="metric-row">
-                <div class="metric-box">
-                    <div class="metric-label">Target Block Time</div>
-                    <div class="metric-value" id="targetTimeVal">8,000 ms</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-label">Actual Last Block</div>
-                    <div class="metric-value" id="actualTimeVal">--- ms</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-label">PID Feedback Error</div>
-                    <div class="metric-value" id="feedbackErrorVal">0 ms</div>
-                </div>
-            </div>
+        <!-- Tab 2: Aspect Spacetime & Locality -->
+        <section id="aspect" class="tab-content">
+            <div class="card full-card">
+                <h2>Alain Aspect: Closing the Locality Loophole (1982)</h2>
+                <p class="desc">In 1982 at Orsay, Alain Aspect implemented ultrafast acoustic-optical switches changing polarizer angles while photons were <em>already in flight</em>, ensuring space-like separation ($\Delta s^2 < 0$).</p>
 
-            <div class="telemetry-box">
-                <div class="telemetry-item">
-                    <span>PoW Mining Difficulty (Zeros):</span>
-                    <strong id="diffVal">3</strong>
+                <div class="aspect-schematic">
+                    <div class="spacetime-diagram-container">
+                        <canvas id="minkowskiCanvas" width="850" height="340"></canvas>
+                    </div>
                 </div>
-                <div class="telemetry-item">
-                    <span>Dynamic Base Gas Fee:</span>
-                    <strong id="gasVal">15.0 Gwei</strong>
-                </div>
-                <div class="telemetry-item">
-                    <span>Hamiltonian Ground State Energy:</span>
-                    <strong id="hamiltonianVal">-0.0000</strong>
-                </div>
-                <div class="telemetry-item">
-                    <span>Quantum Interference Factor:</span>
-                    <strong id="interferenceVal">0.992</strong>
-                </div>
-            </div>
 
-            <div class="mining-action-box">
-                <button id="mineBtn" class="btn btn-primary btn-block">⛏️ Mine Next Block (SHA-256 PoW + Quantum Bundle)</button>
+                <div class="specs-grid" id="aspectSpecsGrid">
+                    <!-- Populated dynamically via JS -->
+                </div>
             </div>
         </section>
 
-        <!-- Cryptographic Wallet & Transaction Studio -->
-        <section class="card wallet-card">
-            <div class="card-header">
-                <h2>🔑 Cryptographic secp256k1 Wallet Studio</h2>
-                <button id="newWalletBtn" class="btn btn-sm btn-outline">+ New Real Wallet</button>
-            </div>
-
-            <div class="wallet-info-panel">
-                <div class="wallet-field">
-                    <label>Active Wallet Address:</label>
-                    <div class="copyable-text" id="walletAddress">0x...</div>
-                </div>
-                <div class="wallet-balance-row">
-                    <div>Balance: <span class="balance-number" id="walletBalance">0.00</span> <span class="currency">QCY</span></div>
-                    <div class="tag">secp256k1 ECDSA</div>
-                </div>
-            </div>
-
-            <form id="txForm" class="tx-form">
-                <h3>Submit Signed Cryptographic Transaction</h3>
-                <div class="form-group">
-                    <label>Recipient Address:</label>
-                    <input type="text" id="recipientInput" placeholder="0x..." required />
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Amount (QCY):</label>
-                        <input type="number" id="amountInput" step="0.1" min="0.1" placeholder="10.0" required />
+        <!-- Tab 3: Zeilinger Entanglement Swapping & GHZ -->
+        <section id="zeilinger" class="tab-content">
+            <div class="panel-grid">
+                <div class="card">
+                    <h2>Anton Zeilinger: Entanglement Swapping (1998)</h2>
+                    <p class="desc">Entangling two photons (1 and 4) that never met, originated from independent sources, and shared no common past.</p>
+                    
+                    <div class="swapping-flow">
+                        <div class="source-box">
+                            <strong>Source I:</strong> Emits Pair (1, 2)
+                        </div>
+                        <div class="source-box">
+                            <strong>Source II:</strong> Emits Pair (3, 4)
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Priority Fee (QCY):</label>
-                        <input type="number" id="feeInput" step="0.1" min="0.1" value="1.0" required />
+                    <div class="measurement-box">
+                        <strong>Central Bell-State Measurement (BSM):</strong>
+                        <p>Joint measurement on Photons (2, 3) collapses them into a Bell state.</p>
+                        <div class="select-row">
+                            <label>BSM Outcome:</label>
+                            <select id="bsmSelect" class="form-select">
+                                <option value="psiMinus">|Ψ⁻⟩ Singlet (Antisymmetric)</option>
+                                <option value="phiPlus">|Φ⁺⟩ Triplet (Symmetric)</option>
+                                <option value="phiMinus">|Φ⁻⟩ Triplet</option>
+                                <option value="psiPlus">|Ψ⁺⟩ Triplet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-box" id="swappingResultBox">
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success btn-block">⚡ Sign & Broadcast Transaction</button>
-            </form>
+
+                <div class="card">
+                    <h2>Greenberger-Horne-Zeilinger (GHZ) Theorem</h2>
+                    <p class="desc">Single-shot deterministic contradiction (+1 vs -1) ruling out Local Realism without needing statistical inequalities.</p>
+                    
+                    <table class="ghz-table">
+                        <thead>
+                            <tr>
+                                <th>Observable</th>
+                                <th>Local Realism Expectation</th>
+                                <th>Quantum Mechanics Reality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$\sigma_x^{(1)} \sigma_y^{(2)} \sigma_y^{(3)}$</td>
+                                <td>$+1$</td>
+                                <td class="text-cyan">$+1$</td>
+                            </tr>
+                            <tr>
+                                <td>$\sigma_y^{(1)} \sigma_x^{(2)} \sigma_y^{(3)}$</td>
+                                <td>$+1$</td>
+                                <td class="text-cyan">$+1$</td>
+                            </tr>
+                            <tr>
+                                <td>$\sigma_y^{(1)} \sigma_y^{(2)} \sigma_x^{(3)}$</td>
+                                <td>$+1$</td>
+                                <td class="text-cyan">$+1$</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>$\sigma_x^{(1)} \sigma_x^{(2)} \sigma_x^{(3)}$ (Test Operator)</strong></td>
+                                <td class="text-red"><strong>$+1$ (Demanded by Classical Realism)</strong></td>
+                                <td class="text-emerald"><strong>$-1$ (Quantum Reality Proved by Zeilinger)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="contradiction-banner mt-3">
+                        <strong>ABSOLUTE MATHEMATICAL CONTRADICTION: $+1 \neq -1$</strong>
+                        <p>No local hidden variable assignment can simultaneously satisfy all 4 measurements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: Real Historical Lab Benchmarks -->
+        <section id="benchmarks" class="tab-content">
+            <div class="card full-card">
+                <h2>Authentic Laboratory Benchmarks (Peer-Reviewed Literature)</h2>
+                <p class="desc">Real experimental data directly recorded in Nobel Prize physics laboratories. Zero mocks, zero synthetic fabrications.</p>
+                <div class="benchmarks-container" id="benchmarksList">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 5: Informational Reality ("It from Bit") -->
+        <section id="itfrombit" class="tab-content">
+            <div class="card full-card">
+                <h2>Why the 2022 Nobel Prize Refutes Classical Simulation Theory</h2>
+                <p class="desc">Examining John Wheeler's <em>"It from Bit"</em> and Anton Zeilinger's <em>Foundational Principle of Quantum Information</em>.</p>
+                
+                <div class="panel-grid mt-3">
+                    <div class="card bg-darker">
+                        <h3 class="text-red">❌ Classical Simulation Theory (Refuted)</h3>
+                        <p>The naive idea that reality is a classical computer game (like The Matrix or GTA) running on deterministic bits:</p>
+                        <ul class="bullet-list">
+                            <li><strong>Pre-existing Variables:</strong> In a classical video game, an object's position, rotation, and properties exist in RAM variables whether the camera looks at them or not.</li>
+                            <li><strong>Local Causality:</strong> A classical computer cannot exceed the Bell bound ($S \le 2$) between distant nodes without communicating data.</li>
+                            <li><strong>The Verdict:</strong> 2022 Nobel Prize experiments (Aspect, Clauser, Zeilinger) proved that physical properties <em>do not exist with definite values prior to measurement</em>. Nature cannot be a classical simulation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card bg-darker">
+                        <h3 class="text-cyan">⚛️ Quantum Informational Reality ("It from Bit")</h3>
+                        <p>The peer-reviewed scientific framework established by Wheeler and Zeilinger:</p>
+                        <ul class="bullet-list">
+                            <li><strong>John Wheeler (1989):</strong> <em>"Every 'it'—every particle, every field—derives its existence entirely from apparatus-elicited answers to yes/no questions (bits)."</em></li>
+                            <li><strong>Anton Zeilinger (1999):</strong> <em>"An elementary physical system carries only ONE bit of information."</em> When an observation is made, that single bit of capacity is exhausted, leaving complementary observables inherently indeterminate.</li>
+                            <li><strong>The Verdict:</strong> Reality is fundamentally informational. The separation between "physical matter" and "information about matter" is an illusion.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 6: About & GitHub -->
+        <section id="about" class="tab-content">
+            <div class="card full-card">
+                <h2>About the Project & GitHub Repository</h2>
+                <p class="desc">Open-source scientific computational suite verifying the 2022 Nobel Prize in Physics (Aspect • Clauser • Zeilinger).</p>
+
+                <div class="panel-grid mt-3">
+                    <!-- Repository Details Card -->
+                    <div class="card bg-darker">
+                        <h3>📦 GitHub Repository Overview</h3>
+                        <p class="desc">Project codebase, documentation, and version control.</p>
+                        
+                        <div class="repo-meta-list">
+                            <div class="meta-row">
+                                <span class="meta-label">GitHub Repository:</span>
+                                <a href="https://github.com/elon00/simulation-theory" target="_blank" rel="noopener noreferrer" class="link-cyan">
+                                    elon00/simulation-theory ↗
+                                </a>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">Project Status:</span>
+                                <span class="text-emerald" style="font-family: var(--font-mono); font-weight: 600;">Renamed & Fully Synchronized</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">Framework Version:</span>
+                                <span style="font-family: var(--font-mono);">v2.0.0 (Nobel Physics Verified)</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">License:</span>
+                                <span>MIT Open Source</span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row mt-3">
+                            <a href="https://github.com/elon00/simulation-theory" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                <svg height="15" width="15" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: text-bottom; margin-right: 4px;">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                Open GitHub Repository ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Rename Guide & Direct Link Card -->
+                    <div class="card bg-darker">
+                        <h3 class="text-gold">⚙️ GitHub Repository Settings & Sync</h3>
+                        <p class="desc">Repository is synchronized with <strong>elon00/simulation-theory</strong>.</p>
+
+                        <div class="rename-box">
+                            <a href="https://github.com/elon00/simulation-theory/settings" target="_blank" rel="noopener noreferrer" class="btn btn-rename">
+                                ⚙️ GitHub Repository Settings ↗
+                            </a>
+                        </div>
+
+                        <div class="steps-list mt-3">
+                            <div class="step-item">
+                                <span class="step-num">1</span>
+                                <div>Repository is renamed to <code>simulation-theory</code>.</div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-num">2</span>
+                                <div>
+                                    Git Remote origin URL is synchronized:
+                                    <div class="code-copy-container mt-2">
+                                        <code id="remoteCmd">git remote set-url origin https://github.com/elon00/simulation-theory.git</code>
+                                        <button id="copyRemoteBtn" class="btn btn-sm btn-outline">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-darker mt-3">
+                    <h3>🔬 About the 2022 Nobel Prize in Physics Scientific Suite</h3>
+                    <p class="desc">This platform is an open, empirical laboratory demonstrating that our physical universe is not composed of classical deterministic particles with predetermined values, but is fundamentally an informational quantum reality.</p>
+                    
+                    <div class="specs-grid">
+                        <div class="spec-card">
+                            <div class="spec-title">John F. Clauser</div>
+                            <div class="spec-val" style="font-size: 1rem;">CHSH Inequality (1969/1972)</div>
+                            <div class="spec-desc">Proved experimentally that nature violates classical Bell inequalities ($S \le 2$).</div>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">Alain Aspect</div>
+                            <div class="spec-val" style="font-size: 1rem;">Locality Loophole (1982)</div>
+                            <div class="spec-desc">Ultrafast space-like switching while photons are in flight ($\Delta s^2 < 0$).</div>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">Anton Zeilinger</div>
+                            <div class="spec-val" style="font-size: 1rem;">Quantum Teleportation & GHZ</div>
+                            <div class="spec-desc">Entanglement swapping without shared past and foundational quantum information.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
-    <!-- QMOOSA Universal Engineering Suite Grid -->
-    <section class="suite-grid">
-        <!-- Conway Automaton Engine -->
-        <div class="card suite-card">
-            <div class="card-header">
-                <h2>🧬 Conway Automaton (B3/S23)</h2>
-                <span class="badge" id="conwayGenBadge">Gen #0</span>
-            </div>
-            <div class="suite-body">
-                <div class="stat-row">
-                    <span>Live Cells: <strong class="val" id="conwayLiveCells">5</strong></span>
-                    <span>State Hash: <span class="tag" id="conwayHash" style="font-family:monospace; font-size:0.65rem;">init</span></span>
-                </div>
-                <div class="button-group" style="display:flex; gap:8px; margin-top:8px;">
-                    <button id="conwayStepBtn" class="btn btn-sm btn-primary">Step Gen ⏭️</button>
-                    <button id="conwayGliderBtn" class="btn btn-sm btn-outline">Glider</button>
-                    <button id="conwayBlinkerBtn" class="btn btn-sm btn-outline">Blinker</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- x402 Bazaar Protocol -->
-        <div class="card suite-card">
-            <div class="card-header">
-                <h2>💰 x402 Bazaar Agent Payments</h2>
-                <span class="badge" style="background:#064e3b; color:#34d399;">x402/v2</span>
-            </div>
-            <div class="suite-body">
-                <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:8px;">Autonomous Agent-to-Agent Paid Resource Discovery:</div>
-                <div id="x402Catalog" style="font-size:0.75rem; max-height:80px; overflow-y:auto; background:#070b12; padding:6px; border-radius:6px; margin-bottom:8px;">
-                    Loading x402 Bazaar catalog...
-                </div>
-                <button id="test402Btn" class="btn btn-sm btn-outline" style="width:100%;">⚡ Test HTTP 402 Negotiation</button>
-            </div>
-        </div>
-
-        <!-- Post-Quantum Cryptography & Multiwallet QR -->
-        <div class="card suite-card">
-            <div class="card-header">
-                <h2>🛡️ NIST FIPS 204 PQC & QR Pay</h2>
-                <span class="badge" style="background:#4c1d95; color:#c4b5fd;">ML-DSA-65</span>
-            </div>
-            <div class="suite-body">
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                    <button id="pqcGenBtn" class="btn btn-sm btn-accent" style="flex:1;">Generate ML-DSA</button>
-                    <button id="genQrBtn" class="btn btn-sm btn-outline" style="flex:1;">Generate QR</button>
-                </div>
-                <div id="qrPreview" style="display:flex; justify-content:center; align-items:center; margin-top:8px; min-height:80px;">
-                    <span style="font-size:0.72rem; color:#64748b;">Click 'Generate QR' for instant EIP-681 code</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Multimodel AI Agentic Console -->
-        <div class="card suite-card">
-            <div class="card-header">
-                <h2>🤖 Multimodel Agentic Console</h2>
-                <select id="agentSelect" style="background:#0f172a; border:1px solid #1e293b; color:#38bdf8; font-size:0.72rem; padding:2px 6px; border-radius:4px;">
-                    <option value="agent_arch">Architecture Agent</option>
-                    <option value="agent_sec">Security & CodeQL</option>
-                    <option value="agent_contract">Smart Contract Agent</option>
-                    <option value="agent_qa">Reality Gate Agent</option>
-                </select>
-            </div>
-            <div class="suite-body">
-                <div id="agentChatBox" style="font-size:0.75rem; min-height:60px; max-height:80px; overflow-y:auto; background:#070b12; padding:6px; border-radius:6px; color:#cbd5e1; margin-bottom:6px;">
-                    [Architecture Agent]: System initialized. QuickNode, x402, and IPFS adapters verified.
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <input type="text" id="agentInput" placeholder="Ask AI agent..." style="flex:1; background:#090d16; border:1px solid #1e293b; color:#fff; font-size:0.75rem; padding:4px 8px; border-radius:4px;" />
-                    <button id="agentSendBtn" class="btn btn-sm btn-primary">Send</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- QMOOSA Sovereign Token Launchpad Studio -->
-    <section class="card launchpad-section" style="margin-bottom:24px;">
-        <div class="card-header">
-            <div>
-                <h2>🚀 QMOOSA Sovereign Token Launchpad & Fair-Launch Studio</h2>
-                <p class="subtitle" style="margin-top:2px;">Multi-Tier Presales &bull; Bounded Emission Economics M(t) &bull; Automated Liquidity Locks</p>
-            </div>
-            <div style="display:flex; gap:8px;">
-                <button id="toggleCreateLaunchBtn" class="btn btn-sm btn-primary">+ Create Token Launch</button>
-                <button id="toggleCalcBtn" class="btn btn-sm btn-outline">🧮 Emission Calculator</button>
-            </div>
-        </div>
-
-        <!-- Create Launch Form (collapsible) -->
-        <div id="createLaunchPanel" style="display:none; background:#070b14; padding:14px; border-radius:8px; border:1px solid #1e293b; margin-top:8px;">
-            <h3 style="font-size:0.9rem; color:#38bdf8; margin-bottom:10px;">Deploy New Multi-Tier Launchpad Project</h3>
-            <form id="createLaunchForm" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Token Name:</label>
-                    <input type="text" id="lpTokenName" placeholder="e.g. Nexus Protocol" required style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Token Symbol:</label>
-                    <input type="text" id="lpTokenSymbol" placeholder="e.g. NXS" required style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Target Blockchain:</label>
-                    <select id="lpTargetChain" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;">
-                        <option value="Base">Base Layer 2</option>
-                        <option value="Ethereum">Ethereum</option>
-                        <option value="Solana">Solana</option>
-                        <option value="Polygon">Polygon</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Initial Supply:</label>
-                    <input type="number" id="lpInitialSupply" value="100000000" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Sale Price (USD):</label>
-                    <input type="number" id="lpSalePrice" step="0.01" value="0.05" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div>
-                    <label style="font-size:0.72rem; color:#94a3b8;">Target Raise (USD):</label>
-                    <input type="number" id="lpTargetRaise" value="250000" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div style="grid-column:span 3; display:flex; justify-content:flex-end; gap:8px; margin-top:4px;">
-                    <button type="button" id="cancelLaunchBtn" class="btn btn-sm btn-outline">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-success">🚀 Initialize & Deploy Launchpad</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Governed Emission Calculator Widget (collapsible) -->
-        <div id="emissionCalcPanel" style="display:none; background:#070b14; padding:14px; border-radius:8px; border:1px solid #1e293b; margin-top:8px;">
-            <h3 style="font-size:0.9rem; color:#38bdf8; margin-bottom:8px;">Governed Emission Limit Calculator: M(t) = min(R(t), annual_emission_limit)</h3>
-            <div style="display:flex; gap:12px; align-items:flex-end;">
-                <div style="flex:1;">
-                    <label style="font-size:0.72rem; color:#94a3b8;">Current Total Supply:</label>
-                    <input type="number" id="calcSupply" value="100000000" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <div style="flex:1;">
-                    <label style="font-size:0.72rem; color:#94a3b8;">Requested Mint (R(t)):</label>
-                    <input type="number" id="calcMint" value="12000000" style="width:100%; background:#0f172a; border:1px solid #1e293b; color:#fff; padding:6px; border-radius:4px; font-size:0.8rem;" />
-                </div>
-                <button id="runCalcBtn" class="btn btn-sm btn-primary" style="height:32px;">Calculate Bound</button>
-            </div>
-            <div id="calcResult" style="margin-top:10px; font-size:0.8rem; background:#0b1120; padding:8px; border-radius:6px; border:1px solid #1e293b;">
-                Enter supply and mint request to evaluate against the 8% annual governance ceiling.
-            </div>
-        </div>
-
-        <!-- Launchpad Projects Cards Container -->
-        <div class="launchpad-grid" id="launchpadProjectsContainer" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-top:14px;">
-            <!-- Dynamically populated via app.js -->
-        </div>
-    </section>
-
-    <!-- Bottom Blockchain Ledger & Mempool -->
-    <section class="bottom-section">
-        <div class="card">
-            <div class="card-header">
-                <h2>⛓️ Verified Blockchain Ledger (SHA-256 Blocks & Merkle Roots)</h2>
-                <span class="badge" id="blockCountBadge">1 Block</span>
-            </div>
-            <div class="blocks-container" id="blocksContainer">
-                <!-- Injected via app.js -->
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h2>🌊 Quantum Mempool (Superposed Pending Transactions)</h2>
-                <span class="badge" id="mempoolBadge">0 Pending</span>
-            </div>
-            <div class="mempool-container" id="mempoolContainer">
-                <div class="empty-state">Mempool is currently empty. Submit a signed transaction above!</div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <p>QMOOSA Universal AI–Web4–Blockchain Framework &bull; 100/100 Reality Gate Certified &bull; QuickNode &bull; x402 Bazaar &bull; IPFS &bull; Fleek &bull; NIST PQC</p>
+    <footer class="app-footer">
+        <p>Simulation Theory Scientific Verification Suite • Grounded in the 2022 Nobel Prize in Physics (Alain Aspect, John F. Clauser, Anton Zeilinger)</p>
     </footer>
 
     <script src="app.js"></script>

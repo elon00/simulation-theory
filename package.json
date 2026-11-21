@@ -1,22 +1,25 @@
 {
-  "name": "quantum-cybernetic-crypto-engine",
-  "version": "1.0.0",
-  "description": "Production-grade cryptographic ledger combining secp256k1 ECDSA, SHA-256 Proof-of-Work, Quantum Hamiltonian block bundling, Norbert Wiener Cybernetics Homeostasis, and live crypto market feeds.",
+  "name": "simulation-theory",
+  "version": "2.0.0",
+  "description": "Scientific verification engine and computational laboratory based on the 2022 Nobel Prize in Physics (Alain Aspect, John F. Clauser, Anton Zeilinger). Proves violation of local realism, quantum non-locality, Bell/CHSH inequalities, and Wheeler-Zeilinger informational reality (It from Bit).",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node test.js"
   },
   "keywords": [
-    "quantum-computing",
-    "blockchain",
-    "cybernetics",
-    "cryptocurrency",
-    "secp256k1",
-    "sha256",
-    "merkle-tree",
-    "hamiltonian",
-    "proof-of-work"
+    "simulation-theory",
+    "quantum-mechanics",
+    "nobel-prize-2022",
+    "aspect",
+    "clauser",
+    "zeilinger",
+    "bell-inequality",
+    "chsh-inequality",
+    "quantum-entanglement",
+    "non-locality",
+    "it-from-bit",
+    "physics"
   ],
   "author": "elon00",
   "license": "MIT"
